@@ -53,6 +53,7 @@ export const Badge = ({
     font-semibold
     transition-all duration-200
     whitespace-nowrap
+    flex-row
     ${pill ? 'rounded-full' : 'rounded-lg'}
     ${badgeVariants[variant]}
     ${badgeSizes[size]}
@@ -66,12 +67,12 @@ export const Badge = ({
     >
       {dot && (
         <span
-          className={`w-2 h-2 rounded-full ${dotColors[variant]} animate-pulse`}
+          className={`w-2 h-2 rounded-full ${dotColors[variant]} animate-pulse flex-shrink-0`}
           aria-hidden="true"
         />
       )}
       
-      <span>{children}</span>
+      {children}
       
       {removable && onRemove && (
         <button
@@ -80,7 +81,7 @@ export const Badge = ({
             e.stopPropagation();
             onRemove();
           }}
-          className="ml-1 hover:bg-black/10 rounded-full p-0.5 transition-colors"
+          className="ml-1 hover:bg-black/10 rounded-full p-0.5 transition-colors flex-shrink-0"
           aria-label="Remover badge"
         >
           <X className="w-3 h-3" aria-hidden="true" />

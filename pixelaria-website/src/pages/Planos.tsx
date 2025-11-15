@@ -128,7 +128,7 @@ export const Planos = () => {
         </div>
       </section>
 
-      <div className="container-custom py-16"
+      <div className="container-custom py-16">
 
         {/* Pricing Cards */}
         <div className="grid lg:grid-cols-2 gap-8 max-w-6xl mx-auto mb-12">

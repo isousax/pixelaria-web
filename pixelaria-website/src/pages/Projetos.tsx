@@ -507,7 +507,6 @@ export const Projetos = () => {
           </>
         )}
       </AnimatePresence>
-      </div>
     </div>
   );
 };

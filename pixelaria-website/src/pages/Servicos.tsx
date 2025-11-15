@@ -6,7 +6,7 @@ import { Badge } from '../components/ui/Badge';
 import { services } from '../mocks/services';
 import * as Icons from 'lucide-react';
 import { Check, X, ChevronDown, ChevronUp, MessageCircle, Clock, DollarSign, Sparkles } from 'lucide-react';
-import { createWhatsAppLink, whatsAppMessages } from '../utils/whatsapp';
+import { createWhatsAppLink, whatsAppMessages } from '../utils/helpers';
 
 // Enhanced service data with pricing and process
 const enhancedServices = [
