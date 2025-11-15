@@ -1,164 +1,512 @@
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, ExternalLink } from 'lucide-react';
-import { Card } from '../components/ui/Card';
+import { X, ExternalLink, Search, SlidersHorizontal, Calendar, Tag, ChevronLeft, ChevronRight, Star, TrendingUp, Award } from 'lucide-react';
+import { Card, CardHeader, CardTitle, CardContent } from '../components/ui/Card';
 import { Button } from '../components/ui/Button';
+import { Input } from '../components/ui/Input';
+import { Badge } from '../components/ui/Badge';
 import { projects } from '../mocks/projects';
 import type { Project } from '../types';
 
 export const Projetos = () => {
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
-  const [filter, setFilter] = useState<string>('all');
-
+  const [categoryFilter, setCategoryFilter] = useState<string>('all');
+  const [searchQuery, setSearchQuery] = useState<string>('');
+  const [showFilters, setShowFilters] = useState<boolean>(false);
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const [sortBy, setSortBy] = useState<'recent' | 'featured' | 'title'>('recent');
+  
+  const projectsPerPage = 9;
   const categories = ['all', ...Array.from(new Set(projects.map(p => p.category)))];
   
-  const filteredProjects = filter === 'all' 
-    ? projects 
-    : projects.filter(p => p.category === filter);
+  // Filter and search logic
+  const filteredProjects = useMemo(() => {
+    let result = projects;
+    
+    // Category filter
+    if (categoryFilter !== 'all') {
+      result = result.filter(p => p.category === categoryFilter);
+    }
+    
+    // Search filter
+    if (searchQuery.trim()) {
+      const query = searchQuery.toLowerCase();
+      result = result.filter(p => 
+        p.title.toLowerCase().includes(query) ||
+        p.description.toLowerCase().includes(query) ||
+        p.shortDescription.toLowerCase().includes(query) ||
+        p.category.toLowerCase().includes(query) ||
+        p.technologies.some(tech => tech.toLowerCase().includes(query))
+      );
+    }
+    
+    // Sort
+    if (sortBy === 'featured') {
+      result = [...result].sort((a, b) => (b.featured ? 1 : 0) - (a.featured ? 1 : 0));
+    } else if (sortBy === 'title') {
+      result = [...result].sort((a, b) => a.title.localeCompare(b.title));
+    } else {
+      result = [...result].sort((a, b) => new Date(b.completedDate).getTime() - new Date(a.completedDate).getTime());
+    }
+    
+    return result;
+  }, [categoryFilter, searchQuery, sortBy]);
+  
+  // Pagination
+  const totalPages = Math.ceil(filteredProjects.length / projectsPerPage);
+  const startIndex = (currentPage - 1) * projectsPerPage;
+  const endIndex = startIndex + projectsPerPage;
+  const currentProjects = filteredProjects.slice(startIndex, endIndex);
+  
+  // Stats
+  const stats = [
+    { icon: <TrendingUp className="w-6 h-6" />, value: projects.length, label: 'Projetos Concluídos' },
+    { icon: <Star className="w-6 h-6" />, value: projects.filter(p => p.featured).length, label: 'Projetos em Destaque' },
+    { icon: <Award className="w-6 h-6" />, value: categories.length - 1, label: 'Categorias Atendidas' },
+  ];
 
   return (
-    <div className="bg-background-light py-20">
-      <div className="container-custom">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="text-center mb-12"
-        >
-          <h1 className="section-title">Nossos Projetos</h1>
-          <p className="section-subtitle mx-auto">
-            Conheça alguns dos sites profissionais que já criamos
-          </p>
-        </motion.div>
+    <div className="bg-neutral-50">
+      {/* Hero Section */}
+      <section className="relative bg-linear-to-br from-primary-600 to-secondary-600 py-20 text-white overflow-hidden">
+        <div className="absolute inset-0 opacity-10">
+          <div className="absolute top-0 right-0 w-96 h-96 bg-white rounded-full blur-3xl" />
+          <div className="absolute bottom-0 left-0 w-96 h-96 bg-white rounded-full blur-3xl" />
+        </div>
+        
+        <div className="container-custom relative z-10">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="text-center max-w-3xl mx-auto"
+          >
+            <Badge variant="default" size="lg" className="mb-6 bg-white/20 text-white border-white/30">
+              <Star className="w-4 h-4" />
+              Portfólio Completo
+            </Badge>
+            <h1 className="text-5xl lg:text-6xl font-black mb-6">Nossos Projetos</h1>
+            <p className="text-xl text-white/90 mb-8">
+              Conheça os sites profissionais que já criamos para empresas de diversos segmentos
+            </p>
+            
+            {/* Stats */}
+            <div className="grid grid-cols-3 gap-8 mt-12">
+              {stats.map((stat, index) => (
+                <motion.div
+                  key={index}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.2 + index * 0.1 }}
+                  className="text-center"
+                >
+                  <div className="w-12 h-12 mx-auto mb-3 bg-white/20 rounded-xl flex items-center justify-center">
+                    {stat.icon}
+                  </div>
+                  <div className="text-3xl font-black mb-1">{stat.value}+</div>
+                  <div className="text-sm text-white/80">{stat.label}</div>
+                </motion.div>
+              ))}
+            </div>
+          </motion.div>
+        </div>
+      </section>
 
-        {/* Filters */}
-        <div className="flex flex-wrap justify-center gap-3 mb-12">
-          {categories.map(cat => (
-            <button
-              key={cat}
-              onClick={() => setFilter(cat)}
-              className={`px-4 py-2 rounded-lg font-medium transition-all ${
-                filter === cat
-                  ? 'bg-primary-600 text-white shadow-soft'
-                  : 'bg-white text-neutral-700 hover:bg-neutral-50'
-              }`}
+      <div className="container-custom py-16">
+        {/* Filters Bar */}
+        <Card variant="elevated" padding="lg" className="mb-12">
+          <div className="flex flex-col lg:flex-row gap-4">
+            {/* Search */}
+            <div className="flex-1">
+              <Input
+                type="text"
+                placeholder="Buscar por título, categoria ou tecnologia..."
+                value={searchQuery}
+                onChange={(e) => {
+                  setSearchQuery(e.target.value);
+                  setCurrentPage(1);
+                }}
+                leftIcon={<Search className="w-5 h-5" />}
+                variant="filled"
+              />
+            </div>
+            
+            {/* Sort */}
+            <div className="flex gap-2">
+              <select
+                value={sortBy}
+                onChange={(e) => setSortBy(e.target.value as any)}
+                className="px-4 py-2 border border-neutral-300 rounded-lg font-medium hover:border-primary-300 focus:outline-none focus:ring-2 focus:ring-primary-500 transition-all"
+              >
+                <option value="recent">Mais Recentes</option>
+                <option value="featured">Em Destaque</option>
+                <option value="title">Ordem Alfabética</option>
+              </select>
+              
+              <Button
+                variant="outline"
+                onClick={() => setShowFilters(!showFilters)}
+                leftIcon={<SlidersHorizontal className="w-5 h-5" />}
+              >
+                {showFilters ? 'Ocultar' : 'Filtros'}
+              </Button>
+            </div>
+          </div>
+          
+          {/* Category Filters */}
+          <AnimatePresence>
+            {showFilters && (
+              <motion.div
+                initial={{ height: 0, opacity: 0 }}
+                animate={{ height: 'auto', opacity: 1 }}
+                exit={{ height: 0, opacity: 0 }}
+                transition={{ duration: 0.3 }}
+                className="overflow-hidden"
+              >
+                <div className="pt-6 mt-6 border-t border-neutral-200">
+                  <div className="flex items-center gap-3 mb-4">
+                    <Tag className="w-5 h-5 text-neutral-600" />
+                    <h3 className="font-bold text-neutral-900">Categorias:</h3>
+                  </div>
+                  <div className="flex flex-wrap gap-2">
+                    {categories.map(cat => (
+                      <Badge
+                        key={cat}
+                        variant={categoryFilter === cat ? 'primary' : 'default'}
+                        size="lg"
+                        onClick={() => {
+                          setCategoryFilter(cat);
+                          setCurrentPage(1);
+                        }}
+                        className="cursor-pointer hover:scale-105 transition-transform"
+                      >
+                        {cat === 'all' ? 'Todos os Projetos' : cat}
+                      </Badge>
+                    ))}
+                  </div>
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </Card>
+
+        {/* Results Info */}
+        <div className="flex items-center justify-between mb-6">
+          <p className="text-neutral-600">
+            Mostrando <strong>{currentProjects.length}</strong> de{' '}
+            <strong>{filteredProjects.length}</strong> projeto{filteredProjects.length !== 1 ? 's' : ''}
+          </p>
+          {(searchQuery || categoryFilter !== 'all') && (
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => {
+                setSearchQuery('');
+                setCategoryFilter('all');
+                setCurrentPage(1);
+              }}
             >
-              {cat === 'all' ? 'Todos' : cat}
-            </button>
-          ))}
+              Limpar Filtros
+            </Button>
+          )}
         </div>
 
         {/* Projects Grid */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {filteredProjects.map((project, index) => (
-            <motion.div
-              key={project.id}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: index * 0.05 }}
-              layout
-            >
-              <Card
-                padding="sm"
-                className="cursor-pointer h-full"
-                onClick={() => setSelectedProject(project)}
-              >
-                <div className="relative overflow-hidden rounded-xl mb-4 aspect-video">
-                  <img
-                    src={project.imageUrl}
-                    alt={project.title}
-                    className="w-full h-full object-cover transition-transform duration-300 hover:scale-110"
-                  />
-                  {project.featured && (
-                    <div className="absolute top-3 right-3 bg-primary-600 text-white text-xs font-semibold px-2 py-1 rounded">
-                      Destaque
-                    </div>
-                  )}
-                </div>
-                <div className="p-2">
-                  <span className="text-sm text-primary-600 font-medium">{project.category}</span>
-                  <h3 className="text-xl font-bold mt-1 mb-2">{project.title}</h3>
-                  <p className="text-neutral-600 text-sm line-clamp-2">{project.shortDescription}</p>
-                </div>
-              </Card>
-            </motion.div>
-          ))}
-        </div>
-
-        {/* Modal */}
-        <AnimatePresence>
-          {selectedProject && (
-            <>
+        {currentProjects.length === 0 ? (
+          <Card variant="elevated" padding="xl" className="text-center">
+            <p className="text-neutral-600 text-lg">
+              Nenhum projeto encontrado com os filtros selecionados.
+            </p>
+          </Card>
+        ) : (
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
+            {currentProjects.map((project, index) => (
               <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                onClick={() => setSelectedProject(null)}
-                className="fixed inset-0 bg-black/50 backdrop-blur-sm z-40"
-              />
-              <div className="fixed inset-0 z-50 flex items-center justify-center p-4 overflow-y-auto">
-                <motion.div
-                  initial={{ opacity: 0, scale: 0.95 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  exit={{ opacity: 0, scale: 0.95 }}
-                  className="relative bg-white rounded-2xl shadow-soft-xl w-full max-w-4xl my-8"
-                  onClick={(e) => e.stopPropagation()}
+                key={project.id}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: index * 0.05 }}
+                layout
+              >
+                <Card
+                  hover="lift"
+                  padding="none"
+                  className="cursor-pointer h-full overflow-hidden group"
+                  onClick={() => setSelectedProject(project)}
                 >
+                  <div className="relative overflow-hidden aspect-video">
+                    <img
+                      src={project.imageUrl}
+                      alt={project.title}
+                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                    />
+                    <div className="absolute inset-0 bg-linear-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                    {project.featured && (
+                      <Badge
+                        variant="warning"
+                        className="absolute top-3 right-3 shadow-lg"
+                      >
+                        <Star className="w-3 h-3" />
+                        Destaque
+                      </Badge>
+                    )}
+                    <div className="absolute bottom-0 left-0 right-0 p-4 transform translate-y-full group-hover:translate-y-0 transition-transform duration-300">
+                      <Button
+                        variant="secondary"
+                        size="sm"
+                        fullWidth
+                        leftIcon={<ExternalLink className="w-4 h-4" />}
+                      >
+                        Ver Detalhes
+                      </Button>
+                    </div>
+                  </div>
+                  <div className="p-6">
+                    <Badge variant="primary" size="sm" className="mb-3">
+                      {project.category}
+                    </Badge>
+                    <h3 className="text-xl font-bold mb-2 text-neutral-900 group-hover:text-primary-600 transition-colors">
+                      {project.title}
+                    </h3>
+                    <p className="text-neutral-600 text-sm line-clamp-2 mb-4">
+                      {project.shortDescription}
+                    </p>
+                    <div className="flex items-center gap-2 text-sm text-neutral-500">
+                      <Calendar className="w-4 h-4" />
+                      {new Date(project.completedDate).toLocaleDateString('pt-BR', {
+                        month: 'short',
+                        year: 'numeric'
+                      })}
+                    </div>
+                  </div>
+                </Card>
+              </motion.div>
+            ))}
+          </div>
+        )}
+
+        {/* Pagination */}
+        {totalPages > 1 && (
+          <Card variant="elevated" padding="lg">
+            <div className="flex items-center justify-between">
+              <Button
+                variant="outline"
+                onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}
+                disabled={currentPage === 1}
+                leftIcon={<ChevronLeft className="w-5 h-5" />}
+              >
+                Anterior
+              </Button>
+              
+              <div className="flex items-center gap-2">
+                {Array.from({ length: totalPages }, (_, i) => i + 1).map(page => (
                   <button
-                    onClick={() => setSelectedProject(null)}
-                    className="absolute top-4 right-4 p-2 bg-white rounded-lg hover:bg-neutral-100 transition-colors z-10"
+                    key={page}
+                    onClick={() => setCurrentPage(page)}
+                    className={`w-10 h-10 rounded-lg font-semibold transition-all ${
+                      currentPage === page
+                        ? 'bg-primary-600 text-white shadow-lg scale-110'
+                        : 'bg-white text-neutral-700 hover:bg-neutral-100'
+                    }`}
                   >
-                    <X className="w-5 h-5" />
+                    {page}
                   </button>
-                  
+                ))}
+              </div>
+              
+              <Button
+                variant="outline"
+                onClick={() => setCurrentPage(prev => Math.min(totalPages, prev + 1))}
+                disabled={currentPage === totalPages}
+                rightIcon={<ChevronRight className="w-5 h-5" />}
+              >
+                Próxima
+              </Button>
+            </div>
+          </Card>
+        )}
+      </div>
+
+      {/* Enhanced Modal */}
+      <AnimatePresence>
+        {selectedProject && (
+          <>
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setSelectedProject(null)}
+              className="fixed inset-0 bg-black/70 backdrop-blur-md z-40"
+            />
+            <div className="fixed inset-0 z-50 flex items-center justify-center p-4 overflow-y-auto">
+              <motion.div
+                initial={{ opacity: 0, scale: 0.9, y: 20 }}
+                animate={{ opacity: 1, scale: 1, y: 0 }}
+                exit={{ opacity: 0, scale: 0.9, y: 20 }}
+                transition={{ type: "spring", duration: 0.5 }}
+                className="relative bg-white rounded-2xl shadow-2xl w-full max-w-5xl my-8"
+                onClick={(e) => e.stopPropagation()}
+              >
+                {/* Close Button */}
+                <button
+                  onClick={() => setSelectedProject(null)}
+                  className="absolute top-6 right-6 p-3 bg-white rounded-full hover:bg-neutral-100 transition-all shadow-lg z-20 hover:scale-110"
+                >
+                  <X className="w-6 h-6" />
+                </button>
+                
+                {/* Hero Image */}
+                <div className="relative h-96 overflow-hidden rounded-t-2xl">
                   <img
                     src={selectedProject.imageUrl}
                     alt={selectedProject.title}
-                    className="w-full h-80 object-cover rounded-t-2xl"
+                    className="w-full h-full object-cover"
                   />
+                  <div className="absolute inset-0 bg-linear-to-t from-black/60 to-transparent" />
                   
-                  <div className="p-8">
-                    <div className="flex items-center justify-between mb-4">
-                      <span className="text-sm text-primary-600 font-medium bg-primary-50 px-3 py-1 rounded-full">
-                        {selectedProject.category}
+                  {/* Badges Overlay */}
+                  <div className="absolute top-6 left-6 flex gap-2">
+                    <Badge variant="primary" size="lg">
+                      {selectedProject.category}
+                    </Badge>
+                    {selectedProject.featured && (
+                      <Badge variant="warning" size="lg">
+                        <Star className="w-4 h-4" />
+                        Destaque
+                      </Badge>
+                    )}
+                  </div>
+                  
+                  {/* Title Overlay */}
+                  <div className="absolute bottom-6 left-6 right-6 text-white">
+                    <h2 className="text-4xl font-black mb-2">{selectedProject.title}</h2>
+                    <div className="flex items-center gap-2 text-white/90">
+                      <Calendar className="w-5 h-5" />
+                      <span className="text-lg">
+                        {new Date(selectedProject.completedDate).toLocaleDateString('pt-BR', {
+                          day: 'numeric',
+                          month: 'long',
+                          year: 'numeric'
+                        })}
                       </span>
+                    </div>
+                  </div>
+                </div>
+                
+                {/* Content */}
+                <div className="p-8">
+                  <div className="grid lg:grid-cols-3 gap-8">
+                    {/* Main Content */}
+                    <div className="lg:col-span-2">
+                      <h3 className="text-2xl font-bold mb-4 text-neutral-900">Sobre o Projeto</h3>
+                      <p className="text-neutral-700 text-lg leading-relaxed mb-6">
+                        {selectedProject.description}
+                      </p>
+                      
+                      <Card variant="bordered" padding="lg" className="mb-6">
+                        <CardHeader>
+                          <CardTitle>Descrição Resumida</CardTitle>
+                        </CardHeader>
+                        <CardContent>
+                          <p className="text-neutral-600">
+                            {selectedProject.shortDescription}
+                          </p>
+                        </CardContent>
+                      </Card>
+                      
                       {selectedProject.url && (
-                        <a
-                          href={selectedProject.url}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-primary-600 hover:text-primary-700 flex items-center gap-2"
+                        <Button
+                          onClick={() => window.open(selectedProject.url, '_blank')}
+                          variant="gradient"
+                          size="lg"
+                          leftIcon={<ExternalLink className="w-5 h-5" />}
+                          fullWidth
+                          className="mb-4"
                         >
-                          Ver Site <ExternalLink className="w-4 h-4" />
-                        </a>
+                          Visitar Site do Projeto
+                        </Button>
                       )}
                     </div>
                     
-                    <h2 className="text-3xl font-bold mb-4">{selectedProject.title}</h2>
-                    <p className="text-neutral-700 mb-6">{selectedProject.description}</p>
-                    
-                    <div className="mb-6">
-                      <h3 className="font-semibold mb-2">Tecnologias:</h3>
-                      <div className="flex flex-wrap gap-2">
-                        {selectedProject.technologies.map(tech => (
-                          <span
-                            key={tech}
-                            className="bg-neutral-100 text-neutral-700 px-3 py-1 rounded-full text-sm"
-                          >
-                            {tech}
-                          </span>
-                        ))}
-                      </div>
+                    {/* Sidebar */}
+                    <div className="space-y-6">
+                      {/* Technologies */}
+                      <Card variant="elevated" padding="lg">
+                        <h4 className="font-bold text-lg mb-4 text-neutral-900 flex items-center gap-2">
+                          <Tag className="w-5 h-5 text-primary-600" />
+                          Tecnologias Utilizadas
+                        </h4>
+                        <div className="flex flex-wrap gap-2">
+                          {selectedProject.technologies.map(tech => (
+                            <Badge key={tech} variant="default" size="md">
+                              {tech}
+                            </Badge>
+                          ))}
+                        </div>
+                      </Card>
+                      
+                      {/* Project Info */}
+                      <Card variant="gradient" padding="lg" className="text-white">
+                        <h4 className="font-bold text-lg mb-4">Informações do Projeto</h4>
+                        <div className="space-y-3">
+                          <div className="flex items-center gap-3">
+                            <div className="w-10 h-10 bg-white/20 rounded-lg flex items-center justify-center shrink-0">
+                              <Calendar className="w-5 h-5" />
+                            </div>
+                            <div>
+                              <p className="text-sm text-white/80">Data de Conclusão</p>
+                              <p className="font-semibold">
+                                {new Date(selectedProject.completedDate).toLocaleDateString('pt-BR')}
+                              </p>
+                            </div>
+                          </div>
+                          
+                          <div className="flex items-center gap-3">
+                            <div className="w-10 h-10 bg-white/20 rounded-lg flex items-center justify-center shrink-0">
+                              <Tag className="w-5 h-5" />
+                            </div>
+                            <div>
+                              <p className="text-sm text-white/80">Categoria</p>
+                              <p className="font-semibold">{selectedProject.category}</p>
+                            </div>
+                          </div>
+                          
+                          {selectedProject.featured && (
+                            <div className="flex items-center gap-3">
+                              <div className="w-10 h-10 bg-white/20 rounded-lg flex items-center justify-center shrink-0">
+                                <Star className="w-5 h-5" />
+                              </div>
+                              <div>
+                                <p className="text-sm text-white/80">Status</p>
+                                <p className="font-semibold">Projeto em Destaque</p>
+                              </div>
+                            </div>
+                          )}
+                        </div>
+                      </Card>
+                      
+                      {/* CTA */}
+                      <Card variant="bordered" padding="lg" className="text-center">
+                        <p className="text-neutral-700 mb-4">
+                          Gostou deste projeto? Vamos criar o seu!
+                        </p>
+                        <Button
+                          variant="primary"
+                          size="lg"
+                          fullWidth
+                          onClick={() => window.location.href = '/onboarding'}
+                        >
+                          Iniciar Meu Projeto
+                        </Button>
+                      </Card>
                     </div>
-                    
-                    <Button fullWidth onClick={() => setSelectedProject(null)}>
-                      Fechar
-                    </Button>
                   </div>
-                </motion.div>
-              </div>
-            </>
-          )}
-        </AnimatePresence>
+                </div>
+              </motion.div>
+            </div>
+          </>
+        )}
+      </AnimatePresence>
       </div>
     </div>
   );

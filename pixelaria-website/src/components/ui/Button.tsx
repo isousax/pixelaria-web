@@ -1,14 +1,77 @@
-import type { ButtonHTMLAttributes, ElementType } from 'react';
+import type { ButtonHTMLAttributes, ElementType, ReactNode } from 'react';
 import { forwardRef } from 'react';
-import { motion } from 'framer-motion';
+import { motion, type HTMLMotionProps } from 'framer-motion';
+import { Loader2 } from 'lucide-react';
 
-interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-  variant?: 'primary' | 'secondary' | 'outline' | 'ghost';
-  size?: 'sm' | 'md' | 'lg';
+interface ButtonProps extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'type'> {
+  variant?: 'primary' | 'secondary' | 'outline' | 'ghost' | 'gradient' | 'danger' | 'success';
+  size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
   isLoading?: boolean;
+  loadingText?: string;
   fullWidth?: boolean;
+  leftIcon?: ReactNode;
+  rightIcon?: ReactNode;
   as?: ElementType;
+  type?: 'button' | 'submit' | 'reset';
+  ariaLabel?: string;
+  tooltip?: string;
+  to?: string;
+  href?: string;
+  [key: string]: any; // Allow any additional props for polymorphic components
 }
+
+const buttonVariants = {
+  primary: 
+    'bg-primary-600 hover:bg-primary-700 active:bg-primary-800 text-white shadow-soft hover:shadow-soft-lg ' +
+    'focus:ring-4 focus:ring-primary-200 disabled:bg-primary-300 disabled:shadow-none ' +
+    'border border-primary-700 hover:border-primary-800',
+  
+  secondary: 
+    'bg-white hover:bg-neutral-50 active:bg-neutral-100 text-neutral-800 ' +
+    'border-2 border-neutral-300 hover:border-neutral-400 shadow-soft hover:shadow-soft-lg ' +
+    'focus:ring-4 focus:ring-neutral-200 disabled:bg-neutral-100 disabled:text-neutral-400',
+  
+  outline: 
+    'bg-transparent hover:bg-primary-50 active:bg-primary-100 text-primary-600 hover:text-primary-700 ' +
+    'border-2 border-primary-600 hover:border-primary-700 ' +
+    'focus:ring-4 focus:ring-primary-200 disabled:border-primary-300 disabled:text-primary-300',
+  
+  ghost: 
+    'bg-transparent hover:bg-neutral-100 active:bg-neutral-200 text-neutral-700 hover:text-neutral-900 ' +
+    'focus:ring-4 focus:ring-neutral-200 disabled:text-neutral-400',
+  
+  gradient: 
+    'bg-gradient-to-r from-primary-600 to-secondary-600 hover:from-primary-700 hover:to-secondary-700 ' +
+    'text-white shadow-soft-lg hover:shadow-soft-xl ' +
+    'focus:ring-4 focus:ring-primary-200 disabled:from-primary-300 disabled:to-secondary-300 ' +
+    'border border-primary-700',
+  
+  danger: 
+    'bg-red-600 hover:bg-red-700 active:bg-red-800 text-white shadow-soft hover:shadow-soft-lg ' +
+    'focus:ring-4 focus:ring-red-200 disabled:bg-red-300 ' +
+    'border border-red-700 hover:border-red-800',
+  
+  success: 
+    'bg-green-600 hover:bg-green-700 active:bg-green-800 text-white shadow-soft hover:shadow-soft-lg ' +
+    'focus:ring-4 focus:ring-green-200 disabled:bg-green-300 ' +
+    'border border-green-700 hover:border-green-800',
+};
+
+const buttonSizes = {
+  xs: 'px-3 py-1.5 text-xs font-medium gap-1.5',
+  sm: 'px-4 py-2 text-sm font-medium gap-2',
+  md: 'px-6 py-3 text-base font-semibold gap-2',
+  lg: 'px-8 py-4 text-lg font-semibold gap-2.5',
+  xl: 'px-10 py-5 text-xl font-bold gap-3',
+};
+
+const iconSizes = {
+  xs: 'w-3 h-3',
+  sm: 'w-4 h-4',
+  md: 'w-5 h-5',
+  lg: 'w-6 h-6',
+  xl: 'w-7 h-7',
+};
 
 export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
   (
@@ -17,85 +80,108 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       variant = 'primary',
       size = 'md',
       isLoading = false,
+      loadingText = 'Carregando...',
       fullWidth = false,
+      leftIcon,
+      rightIcon,
       className = '',
       disabled,
       as,
+      type = 'button',
+      ariaLabel,
+      tooltip,
       ...props
     },
     ref
   ) => {
     const Component = as || 'button';
-    const baseStyles = 'font-medium rounded-lg transition-all duration-200 inline-flex items-center justify-center gap-2';
     
-    const variants = {
-      primary: 'bg-primary-600 hover:bg-primary-700 text-white shadow-soft hover:shadow-soft-lg disabled:bg-primary-300',
-      secondary: 'bg-white hover:bg-neutral-50 text-neutral-800 border border-neutral-300 shadow-soft hover:shadow-soft-lg',
-      outline: 'bg-transparent hover:bg-neutral-50 text-primary-600 border border-primary-600',
-      ghost: 'bg-transparent hover:bg-neutral-100 text-neutral-700',
-    };
-    
-    const sizes = {
-      sm: 'px-4 py-2 text-sm',
-      md: 'px-6 py-3 text-base',
-      lg: 'px-8 py-4 text-lg',
-    };
+    const baseStyles = 
+      'relative inline-flex items-center justify-center font-medium rounded-xl ' +
+      'transition-all duration-200 ease-out ' +
+      'disabled:cursor-not-allowed disabled:opacity-60 ' +
+      'focus:outline-none focus-visible:outline-none ' +
+      'select-none touch-manipulation ' +
+      'overflow-hidden';
     
     const widthClass = fullWidth ? 'w-full' : '';
+    const finalClassName = `${baseStyles} ${buttonVariants[variant as keyof typeof buttonVariants]} ${buttonSizes[size as keyof typeof buttonSizes]} ${widthClass} ${className}`;
     
+    const isDisabled = disabled || isLoading;
+    
+    const iconSize = iconSizes[size as keyof typeof iconSizes];
+    
+    const content = (
+      <>
+        {/* Ripple effect overlay */}
+        <span className="absolute inset-0 overflow-hidden rounded-xl">
+          <span className="absolute inset-0 bg-white/20 opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+        </span>
+        
+        {/* Content */}
+        <span className="relative flex items-center justify-center gap-inherit">
+          {isLoading ? (
+            <>
+              <Loader2 className={`${iconSize} animate-spin`} aria-hidden="true" />
+              <span>{loadingText}</span>
+            </>
+          ) : (
+            <>
+              {leftIcon && (
+                <span className={`inline-flex ${iconSize}`} aria-hidden="true">
+                  {leftIcon}
+                </span>
+              )}
+              <span>{children}</span>
+              {rightIcon && (
+                <span className={`inline-flex ${iconSize}`} aria-hidden="true">
+                  {rightIcon}
+                </span>
+              )}
+            </>
+          )}
+        </span>
+      </>
+    );
+    
+    // If using custom component (like Link), render without motion
     if (Component !== 'button') {
       return (
         <Component
           ref={ref}
-          className={`${baseStyles} ${variants[variant]} ${sizes[size]} ${widthClass} ${className} disabled:cursor-not-allowed disabled:opacity-60`}
+          className={finalClassName}
+          aria-label={ariaLabel}
+          title={tooltip}
+          aria-disabled={isDisabled}
           {...props}
         >
-          {children}
+          {content}
         </Component>
       );
     }
     
-    const MotionButton = motion.button;
-    
+    // Render as motion button
     return (
-      <MotionButton
+      <motion.button
         ref={ref}
-        whileHover={{ scale: disabled || isLoading ? 1 : 1.02 }}
-        whileTap={{ scale: disabled || isLoading ? 1 : 0.98 }}
-        className={`${baseStyles} ${variants[variant]} ${sizes[size]} ${widthClass} ${className} disabled:cursor-not-allowed disabled:opacity-60`}
-        disabled={disabled || isLoading}
-        type={props.type || 'button'}
-        onClick={props.onClick}
-        onSubmit={props.onSubmit}
+        type={type}
+        className={`${finalClassName} group`}
+        disabled={isDisabled}
+        aria-label={ariaLabel || (typeof children === 'string' ? children : undefined)}
+        aria-busy={isLoading}
+        title={tooltip}
+        whileHover={!isDisabled ? { scale: 1.02, y: -1 } : undefined}
+        whileTap={!isDisabled ? { scale: 0.98 } : undefined}
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{
+          duration: 0.2,
+          ease: [0.4, 0, 0.2, 1],
+        }}
+        {...(props as HTMLMotionProps<'button'>)}
       >
-        {isLoading ? (
-          <>
-            <svg
-              className="animate-spin h-5 w-5"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-            >
-              <circle
-                className="opacity-25"
-                cx="12"
-                cy="12"
-                r="10"
-                stroke="currentColor"
-                strokeWidth="4"
-              />
-              <path
-                className="opacity-75"
-                fill="currentColor"
-                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-              />
-            </svg>
-            Carregando...
-          </>
-        ) : (
-          children
-        )}
-      </MotionButton>
+        {content}
+      </motion.button>
     );
   }
 );

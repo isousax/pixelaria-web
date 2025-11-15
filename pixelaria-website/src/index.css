@@ -4,131 +4,129 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap');
 
 /* Custom CSS Variables for Design Tokens */
-@layer base {
-  :root {
-    /* Primary Colors - Blue */
-    --color-primary-50: #f0f4ff;
-    --color-primary-100: #e0eaff;
-    --color-primary-200: #c7d8ff;
-    --color-primary-300: #a4bbff;
-    --color-primary-400: #8099ff;
-    --color-primary-500: #6b7fff;
-    --color-primary-600: #4d5ff5;
-    --color-primary-700: #3d4ad8;
-    --color-primary-800: #323dae;
-    --color-primary-900: #2e3889;
-    
-    /* Secondary Colors - Purple */
-    --color-secondary-50: #faf5ff;
-    --color-secondary-100: #f3e8ff;
-    --color-secondary-200: #e9d5ff;
-    --color-secondary-300: #d8b4fe;
-    --color-secondary-400: #c084fc;
-    --color-secondary-500: #a855f7;
-    --color-secondary-600: #9333ea;
-    --color-secondary-700: #7e22ce;
-    --color-secondary-800: #6b21a8;
-    --color-secondary-900: #581c87;
-    
-    /* Neutral Colors - Gray Scale */
-    --color-neutral-50: #f9fafb;
-    --color-neutral-100: #f3f4f6;
-    --color-neutral-200: #e5e7eb;
-    --color-neutral-300: #d1d5db;
-    --color-neutral-400: #9ca3af;
-    --color-neutral-500: #6b7280;
-    --color-neutral-600: #4b5563;
-    --color-neutral-700: #374151;
-    --color-neutral-800: #1f2937;
-    --color-neutral-900: #111827;
-    
-    /* Background Colors */
-    --color-background-light: #F6F7F9;
-    --color-background-default: #FFFFFF;
-    --color-background-dark: #F0F1F3;
-    
-    /* Status Colors */
-    --color-success: #10b981;
-    --color-success-light: #d1fae5;
-    --color-error: #ef4444;
-    --color-error-light: #fee2e2;
-    --color-warning: #f59e0b;
-    --color-warning-light: #fef3c7;
-    --color-info: #3b82f6;
-    --color-info-light: #dbeafe;
-    
-    /* Shadows */
-    --shadow-soft: 0 2px 8px rgba(0, 0, 0, 0.04);
-    --shadow-soft-lg: 0 4px 16px rgba(0, 0, 0, 0.06);
-    --shadow-soft-xl: 0 8px 32px rgba(0, 0, 0, 0.08);
-    --shadow-hover: 0 12px 40px rgba(0, 0, 0, 0.12);
-    
-    /* Spacing */
-    --container-padding: 1rem;
-    --section-spacing: 6rem;
-    --section-spacing-mobile: 3rem;
-  }
+:root {
+  /* Primary Colors - Blue */
+  --color-primary-50: #f0f4ff;
+  --color-primary-100: #e0eaff;
+  --color-primary-200: #c7d8ff;
+  --color-primary-300: #a4bbff;
+  --color-primary-400: #8099ff;
+  --color-primary-500: #6b7fff;
+  --color-primary-600: #4d5ff5;
+  --color-primary-700: #3d4ad8;
+  --color-primary-800: #323dae;
+  --color-primary-900: #2e3889;
   
-  * {
-    border-color: var(--color-neutral-200);
-    box-sizing: border-box;
-  }
+  /* Secondary Colors - Purple */
+  --color-secondary-50: #faf5ff;
+  --color-secondary-100: #f3e8ff;
+  --color-secondary-200: #e9d5ff;
+  --color-secondary-300: #d8b4fe;
+  --color-secondary-400: #c084fc;
+  --color-secondary-500: #a855f7;
+  --color-secondary-600: #9333ea;
+  --color-secondary-700: #7e22ce;
+  --color-secondary-800: #6b21a8;
+  --color-secondary-900: #581c87;
   
-  html {
-    scroll-behavior: smooth;
-    text-rendering: optimizeLegibility;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-  }
+  /* Neutral Colors - Gray Scale */
+  --color-neutral-50: #f9fafb;
+  --color-neutral-100: #f3f4f6;
+  --color-neutral-200: #e5e7eb;
+  --color-neutral-300: #d1d5db;
+  --color-neutral-400: #9ca3af;
+  --color-neutral-500: #6b7280;
+  --color-neutral-600: #4b5563;
+  --color-neutral-700: #374151;
+  --color-neutral-800: #1f2937;
+  --color-neutral-900: #111827;
   
-  body {
-    margin: 0;
-    padding: 0;
-    min-width: 320px;
-    min-height: 100vh;
-    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    background-color: var(--color-background-light);
-    color: var(--color-neutral-800);
-    line-height: 1.6;
-    overflow-x: hidden;
-  }
+  /* Background Colors */
+  --color-background-light: #F6F7F9;
+  --color-background-default: #FFFFFF;
+  --color-background-dark: #F0F1F3;
   
-  /* Focus Styles for Accessibility */
-  *:focus-visible {
-    outline: 2px solid var(--color-primary-500);
-    outline-offset: 2px;
-    border-radius: 0.25rem;
-  }
+  /* Status Colors */
+  --color-success: #10b981;
+  --color-success-light: #d1fae5;
+  --color-error: #ef4444;
+  --color-error-light: #fee2e2;
+  --color-warning: #f59e0b;
+  --color-warning-light: #fef3c7;
+  --color-info: #3b82f6;
+  --color-info-light: #dbeafe;
   
-  /* Selection Styles */
-  ::selection {
-    background-color: var(--color-primary-200);
-    color: var(--color-primary-900);
-  }
+  /* Shadows */
+  --shadow-soft: 0 2px 8px rgba(0, 0, 0, 0.04);
+  --shadow-soft-lg: 0 4px 16px rgba(0, 0, 0, 0.06);
+  --shadow-soft-xl: 0 8px 32px rgba(0, 0, 0, 0.08);
+  --shadow-hover: 0 12px 40px rgba(0, 0, 0, 0.12);
   
-  ::-moz-selection {
-    background-color: var(--color-primary-200);
-    color: var(--color-primary-900);
-  }
-  
-  /* Scrollbar Styles */
-  ::-webkit-scrollbar {
-    width: 12px;
-  }
-  
-  ::-webkit-scrollbar-track {
-    background-color: var(--color-neutral-100);
-  }
-  
-  ::-webkit-scrollbar-thumb {
-    background-color: var(--color-neutral-400);
-    border-radius: 6px;
-    border: 2px solid var(--color-neutral-100);
-  }
-  
-  ::-webkit-scrollbar-thumb:hover {
-    background-color: var(--color-neutral-500);
-  }
+  /* Spacing */
+  --container-padding: 1rem;
+  --section-spacing: 6rem;
+  --section-spacing-mobile: 3rem;
+}
+
+* {
+  border-color: #e5e7eb;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  min-width: 320px;
+  min-height: 100vh;
+  font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background-color: #F6F7F9;
+  color: #1f2937;
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+/* Focus Styles for Accessibility */
+*:focus-visible {
+  outline: 2px solid #6b7fff;
+  outline-offset: 2px;
+  border-radius: 0.25rem;
+}
+
+/* Selection Styles */
+::selection {
+  background-color: #c7d8ff;
+  color: #2e3889;
+}
+
+::-moz-selection {
+  background-color: #c7d8ff;
+  color: #2e3889;
+}
+
+/* Scrollbar Styles */
+::-webkit-scrollbar {
+  width: 12px;
+}
+
+::-webkit-scrollbar-track {
+  background-color: #f3f4f6;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #9ca3af;
+  border-radius: 6px;
+  border: 2px solid #f3f4f6;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: #6b7280;
 }
 
 /* Custom Component Classes */
