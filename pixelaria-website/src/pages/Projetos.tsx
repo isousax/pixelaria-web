@@ -5,7 +5,9 @@ import { Card, CardHeader, CardTitle, CardContent } from '../components/ui/Card'
 import { Button } from '../components/ui/Button';
 import { Input } from '../components/ui/Input';
 import { Badge } from '../components/ui/Badge';
+import { SEO } from '../components/SEO';
 import { projects } from '../mocks/projects';
+import { PAGE_SEO, SCHEMAS } from '../utils/seo';
 import type { Project } from '../types';
 
 export const Projetos = () => {
@@ -66,9 +68,18 @@ export const Projetos = () => {
   ];
 
   return (
-    <div className="bg-neutral-50">
-      {/* Hero Section */}
-      <section className="relative bg-linear-to-br from-primary-600 to-secondary-600 py-20 text-white overflow-hidden">
+    <>
+      <SEO
+        title={PAGE_SEO.projetos.title}
+        description={PAGE_SEO.projetos.description}
+        canonical={PAGE_SEO.projetos.canonical}
+        keywords={PAGE_SEO.projetos.keywords}
+        schema={SCHEMAS.website}
+      />
+      
+      <div className="bg-neutral-50">
+        {/* Hero Section */}
+        <section className="relative bg-linear-to-br from-primary-600 to-secondary-600 py-20 text-white overflow-hidden">
         <div className="absolute inset-0 opacity-10">
           <div className="absolute top-0 right-0 w-96 h-96 bg-white rounded-full blur-3xl" />
           <div className="absolute bottom-0 left-0 w-96 h-96 bg-white rounded-full blur-3xl" />
@@ -507,6 +518,7 @@ export const Projetos = () => {
           </>
         )}
       </AnimatePresence>
-    </div>
+      </div>
+    </>
   );
 };

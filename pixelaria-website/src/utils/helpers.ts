@@ -1,4 +1,4 @@
-export const WHATSAPP_NUMBER = '5511999999999'; // Altere para o número real
+export const WHATSAPP_NUMBER = '5581992720219'; // Altere para o número real
 
 export const createWhatsAppLink = (message: string): string => {
   const encodedMessage = encodeURIComponent(message);

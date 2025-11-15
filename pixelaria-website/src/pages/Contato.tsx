@@ -7,8 +7,10 @@ import { Input } from '../components/ui/Input';
 import { Textarea } from '../components/ui/Textarea';
 import { Button } from '../components/ui/Button';
 import { Badge } from '../components/ui/Badge';
+import { SEO } from '../components/SEO';
 import { useToast } from '../hooks/useToast';
 import { createWhatsAppLink, whatsAppMessages } from '../utils/helpers';
+import { PAGE_SEO, SCHEMAS } from '../utils/seo';
 
 interface ContactForm {
   name: string;
@@ -102,8 +104,17 @@ export const Contato = () => {
   };
 
   return (
-    <div className="bg-neutral-50">
-      {/* Hero Section */}
+    <>
+      <SEO
+        title={PAGE_SEO.contato.title}
+        description={PAGE_SEO.contato.description}
+        canonical={PAGE_SEO.contato.canonical}
+        keywords={PAGE_SEO.contato.keywords}
+        schema={SCHEMAS.organization}
+      />
+      
+      <div className="bg-neutral-50">
+        {/* Hero Section */}
       <section className="relative bg-linear-to-br from-primary-600 to-secondary-600 py-20 text-white overflow-hidden">
         <div className="absolute inset-0 opacity-10">
           <motion.div
@@ -417,6 +428,7 @@ export const Contato = () => {
           </motion.div>
         </div>
       </section>
-    </div>
+      </div>
+    </>
   );
 };

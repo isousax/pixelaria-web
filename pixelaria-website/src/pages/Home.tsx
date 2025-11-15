@@ -3,13 +3,15 @@ import { motion, useScroll, useTransform } from 'framer-motion';
 import { 
   ArrowRight, Check, Code2, Zap, Shield, HeadphonesIcon,
   Star, TrendingUp, Users, Award, Sparkles, Clock, 
-  CheckCircle2, X, ChevronDown, Quote, MessageCircle
+  CheckCircle2, ChevronDown, Quote, MessageCircle
 } from 'lucide-react';
 import { Button } from '../components/ui/Button';
-import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '../components/ui/Card';
+import { Card } from '../components/ui/Card';
 import { Badge } from '../components/ui/Badge';
+import { SEO } from '../components/SEO';
 import { pricingPlans } from '../mocks/pricing';
 import { createWhatsAppLink, whatsAppMessages, formatCurrency } from '../utils/helpers';
+import { PAGE_SEO, SCHEMAS } from '../utils/seo';
 import { useState, useRef } from 'react';
 
 export const Home = () => {
@@ -55,7 +57,7 @@ export const Home = () => {
       icon: <HeadphonesIcon className="w-8 h-8" />,
       title: 'Suporte VIP',
       description: 'Atendimento humanizado via WhatsApp com tempo médio de resposta de 2 horas em dias úteis.',
-      color: 'info' as const,
+      color: 'primary' as const,
     },
     {
       icon: <TrendingUp className="w-8 h-8" />,
@@ -154,9 +156,18 @@ export const Home = () => {
   ];
 
   return (
-    <div className="bg-background-light overflow-hidden">
-      {/* Hero Section - Enhanced */}
-      <section ref={heroRef} className="relative min-h-screen flex items-center py-20 lg:py-32 overflow-hidden">
+    <>
+      <SEO
+        title={PAGE_SEO.home.title}
+        description={PAGE_SEO.home.description}
+        canonical={PAGE_SEO.home.canonical}
+        keywords={PAGE_SEO.home.keywords}
+        schema={[SCHEMAS.organization, SCHEMAS.website, SCHEMAS.faq(faqs)]}
+      />
+      
+      <div className="bg-background-light overflow-hidden">
+        {/* Hero Section - Enhanced */}
+        <section ref={heroRef} className="relative min-h-screen flex items-center py-20 lg:py-32 overflow-hidden">
         {/* Animated Background */}
         <div className="absolute inset-0 bg-linear-to-br from-primary-50 via-white to-secondary-50 opacity-60" />
         <motion.div 
@@ -842,6 +853,7 @@ export const Home = () => {
           </motion.div>
         </div>
       </section>
-    </div>
+      </div>
+    </>
   );
 };

@@ -9,6 +9,7 @@ import { Processo } from './pages/Processo';
 import { Onboarding } from './pages/Onboarding';
 import { Dashboard } from './pages/Dashboard';
 import { Blog } from './pages/Blog';
+import { BlogPost } from './pages/BlogPost';
 import { Contato } from './pages/Contato';
 import { Terms } from './pages/Terms';
 import { Privacy } from './pages/Privacy';
@@ -26,6 +27,7 @@ function App() {
           <Route path="/onboarding" element={<Onboarding />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/blog" element={<Blog />} />
+          <Route path="/blog/:slug" element={<BlogPost />} />
           <Route path="/contato" element={<Contato />} />
           <Route path="/terms" element={<Terms />} />
           <Route path="/privacy" element={<Privacy />} />

@@ -1,37 +1,39 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '../components/ui/Card';
+import { Card } from '../components/ui/Card';
 import { Button } from '../components/ui/Button';
 import { Badge } from '../components/ui/Badge';
+import { SEO } from '../components/SEO';
 import { services } from '../mocks/services';
 import * as Icons from 'lucide-react';
 import { Check, X, ChevronDown, ChevronUp, MessageCircle, Clock, DollarSign, Sparkles } from 'lucide-react';
 import { createWhatsAppLink, whatsAppMessages } from '../utils/helpers';
+import { PAGE_SEO, SCHEMAS } from '../utils/seo';
 
 // Enhanced service data with pricing and process
 const enhancedServices = [
   {
     ...services[0], // Criação de Sites
-    price: 'A partir de R$ 2.500',
+    price: 'A partir de R$ 4.500',
     priceRecurring: 'R$ 90/mês (manutenção)',
     duration: '15 dias úteis',
     included: [
       'Design profissional e responsivo',
-      'Até 5 páginas customizadas',
-      'Otimização SEO básica',
+      'Até 6 páginas customizadas',
+      'Otimização SEO',
+      'Conteúdo (textos e imagens)',
       'Integração com redes sociais',
       'Formulários de contato',
+      'Integrações com APIs externas',
       'Google Analytics configurado',
       'Certificado SSL incluído',
+      'Funcionalidades customizadas',
+      'E-commerce avançado',
       '3 rodadas de revisão',
     ],
     notIncluded: [
       'Hospedagem (cobrada separadamente)',
       'Domínio personalizado',
-      'Conteúdo (textos e imagens)',
-      'E-commerce avançado',
-      'Integrações com APIs externas',
-      'Funcionalidades customizadas',
     ],
     process: [
       { step: 'Briefing', description: 'Entendemos suas necessidades e objetivos', duration: '1 dia' },
@@ -147,9 +149,18 @@ export const Servicos = () => {
   };
 
   return (
-    <div className="bg-neutral-50">
-      {/* Hero Section */}
-      <section className="relative bg-linear-to-br from-primary-600 to-secondary-600 py-20 text-white overflow-hidden">
+    <>
+      <SEO
+        title={PAGE_SEO.servicos.title}
+        description={PAGE_SEO.servicos.description}
+        canonical={PAGE_SEO.servicos.canonical}
+        keywords={PAGE_SEO.servicos.keywords}
+        schema={SCHEMAS.service}
+      />
+      
+      <div className="bg-neutral-50">
+        {/* Hero Section */}
+      <section className="relative bg-linear-to-br from-primary-600 to-secondary-600 py-20 overflow-hidden">
         <div className="absolute inset-0 opacity-10">
           <motion.div
             animate={{ scale: [1, 1.2, 1], rotate: [0, 90, 0] }}
@@ -169,12 +180,12 @@ export const Servicos = () => {
             animate={{ opacity: 1, y: 0 }}
             className="text-center max-w-4xl mx-auto"
           >
-            <Badge variant="default" size="lg" className="mb-6 bg-white/20 text-white border-white/30">
+            <Badge variant="default" size="lg" className="mb-6 bg-white/20 border-white/30">
               <Sparkles className="w-4 h-4" />
               Serviços Completos
             </Badge>
             <h1 className="text-5xl lg:text-6xl font-black mb-6">Nossos Serviços</h1>
-            <p className="text-xl text-white/90 mb-8">
+            <p className="text-xl mb-8">
               Soluções completas para criar, manter e otimizar sua presença digital. <br />
               Preços transparentes e processos bem definidos.
             </p>
@@ -288,7 +299,7 @@ export const Servicos = () => {
                               </Card>
                               
                               {/* Process Timeline */}
-                              <Card variant="gradient" padding="lg" className="text-white">
+                              <Card variant="gradient" padding="lg">
                                 <h3 className="text-xl font-bold mb-4 flex items-center gap-2">
                                   <Clock className="w-6 h-6" />
                                   Processo
@@ -297,9 +308,9 @@ export const Servicos = () => {
                                   {service.process.map((step, idx) => (
                                     <div key={idx} className="relative pl-6 border-l-2 border-white/30 pb-4 last:pb-0">
                                       <div className="absolute -left-2 top-0 w-4 h-4 bg-white rounded-full" />
-                                      <div className="text-sm text-white/80 mb-1">{step.step}</div>
-                                      <div className="font-semibold mb-1">{step.description}</div>
-                                      <Badge variant="default" size="sm" className="bg-white/20 text-white border-white/30">
+                                      <div className="text-sm mb-1 text-black">{step.step}</div>
+                                      <div className="font-semibold mb-1 text-black">{step.description}</div>
+                                      <Badge variant="default" size="sm" className="bg-white/20 border-white/30">
                                         {step.duration}
                                       </Badge>
                                     </div>
@@ -333,7 +344,7 @@ export const Servicos = () => {
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 bg-linear-to-br from-primary-600 to-secondary-600 text-white">
+      <section className="py-20 bg-linear-to-br from-primary-600 to-secondary-600">
         <div className="container-custom text-center">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -343,7 +354,7 @@ export const Servicos = () => {
             <h2 className="text-4xl lg:text-5xl font-black mb-6">
               Pronto para começar?
             </h2>
-            <p className="text-xl text-white/90 mb-8 max-w-2xl mx-auto">
+            <p className="text-xl mb-8 max-w-2xl mx-auto">
               Entre em contato agora e descubra como podemos ajudar sua empresa a crescer online
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
@@ -358,7 +369,7 @@ export const Servicos = () => {
               <Button
                 variant="outline"
                 size="xl"
-                className="bg-white/10 backdrop-blur-sm border-2 border-white text-white hover:bg-white hover:text-primary-600"
+                className="bg-white/10 backdrop-blur-sm border-2 border-white hover:bg-white hover:text-primary-600"
                 onClick={() => window.location.href = '/onboarding'}
               >
                 Iniciar Briefing Online
@@ -367,6 +378,7 @@ export const Servicos = () => {
           </motion.div>
         </div>
       </section>
-    </div>
+      </div>
+    </>
   );
 };

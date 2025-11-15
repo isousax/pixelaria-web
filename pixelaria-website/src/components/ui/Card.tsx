@@ -16,7 +16,7 @@ const cardVariants = {
   bordered: 'bg-white border-2 border-neutral-300',
   elevated: 'bg-white shadow-soft-lg',
   flat: 'bg-neutral-50',
-  gradient: 'bg-gradient-to-br from-primary-50 via-white to-secondary-50 border border-neutral-200',
+  gradient: 'bg-gradient-to-br from-primary-600 via-primary-700 to-secondary-600 text-white',
   glass: 'bg-white/80 backdrop-blur-lg border border-white/30 shadow-soft',
 };
 
@@ -80,24 +80,26 @@ export const Card = ({
     relative
   `.trim().replace(/\s+/g, ' ');
 
+  const motionProps = {
+    initial: { opacity: 0, y: 20 },
+    whileInView: { opacity: 1, y: 0 },
+    viewport: { once: true, margin: '-50px' },
+    transition: {
+      duration: 0.5,
+      ease: [0.4, 0, 0.2, 1] as const,
+    },
+    whileHover: interactive
+      ? { scale: 1.02, transition: { duration: 0.2 } }
+      : undefined,
+  };
+
   return (
     <Component
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: '-50px' }}
-      transition={{
-        duration: 0.5,
-        ease: [0.4, 0, 0.2, 1],
-      }}
-      whileHover={
-        interactive
-          ? { scale: 1.02, transition: { duration: 0.2 } }
-          : undefined
-      }
+      {...motionProps}
       className={combinedClasses}
       role={interactive ? 'button' : undefined}
       tabIndex={interactive ? 0 : undefined}
-      {...props}
+      {...(props as any)}
     >
       {/* Decorative gradient overlay for gradient variant */}
       {variant === 'gradient' && (
