@@ -14,12 +14,12 @@ import { PAGE_SEO, SCHEMAS } from '../utils/seo';
 const enhancedServices = [
   {
     ...services[0], // Criação de Sites
-    price: 'A partir de R$ 4.500',
+    price: 'A partir de R$ 90',
     priceRecurring: 'R$ 90/mês (manutenção)',
     duration: '15 dias úteis',
     included: [
       'Design profissional e responsivo',
-      'Até 6 páginas customizadas',
+      'Páginas customizadas',
       'Otimização SEO',
       'Conteúdo (textos e imagens)',
       'Integração com redes sociais',
@@ -29,10 +29,10 @@ const enhancedServices = [
       'Certificado SSL incluído',
       'Funcionalidades customizadas',
       'E-commerce avançado',
+      'Hospedagem (cobrada separadamente)',
       '3 rodadas de revisão',
     ],
     notIncluded: [
-      'Hospedagem (cobrada separadamente)',
       'Domínio personalizado',
     ],
     process: [
@@ -47,7 +47,7 @@ const enhancedServices = [
   },
   {
     ...services[1], // Manutenção
-    price: 'R$ 90/mês',
+    price: 'R$ 40',
     priceRecurring: null,
     duration: 'Contínuo',
     included: [

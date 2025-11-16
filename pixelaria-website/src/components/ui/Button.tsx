@@ -42,7 +42,7 @@ const buttonVariants = {
   
   gradient: 
     'bg-gradient-to-r from-primary-600 to-secondary-600 hover:from-primary-700 hover:to-secondary-700 ' +
-    'text-white shadow-soft-lg hover:shadow-soft-xl ' +
+    'shadow-soft-lg hover:shadow-soft-xl ' +
     'focus:ring-4 focus:ring-primary-200 disabled:from-primary-300 disabled:to-secondary-300 ' +
     'border border-primary-700',
   
@@ -119,7 +119,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         </span>
         
         {/* Content */}
-        <span className="relative flex items-center justify-center gap-inherit">
+        <span className="relative flex items-center justify-center gap-2">
           {isLoading ? (
             <>
               <Loader2 className={`${iconSize} animate-spin`} aria-hidden="true" />
