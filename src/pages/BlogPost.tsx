@@ -499,14 +499,15 @@ export const BlogPost = () => {
         title={`${post.title} | Blog Pixelaria`}
         description={post.excerpt}
         canonical={`https://pixelaria.com.br/blog/${post.slug}`}
-        keywords={post.tags.join(', ')}
+        keywords={post.tags}
         ogImage={post.image}
         schema={SCHEMAS.article({
           title: post.title,
           description: post.excerpt,
           image: post.image,
           author: post.author,
-          datePublished: post.publishedDate,
+          publishedDate: post.publishedDate,
+          url: `https://pixelaria.com.br/blog/${post.slug}`,
         })}
       />
 
