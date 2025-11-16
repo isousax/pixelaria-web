@@ -1,18 +1,13 @@
-import React from "react";
-import ReactDOM from "react-dom/client";
-import { BrowserRouter } from "react-router-dom";
-import "./index.css";
-import App from "./App";
-import { HelmetProvider } from "react-helmet-async";
+import { StrictMode } from 'react'
+import { createRoot } from 'react-dom/client'
+import { HelmetProvider } from 'react-helmet-async'
+import './index.css'
+import App from './App.tsx'
 
-const Wrapper = import.meta.env.DEV ? React.Fragment : React.StrictMode;
-
-ReactDOM.createRoot(document.getElementById("root")!).render(
-  <Wrapper>
+createRoot(document.getElementById('root')!).render(
+  <StrictMode>
     <HelmetProvider>
-      <BrowserRouter>
-        <App />
-      </BrowserRouter>
+      <App />
     </HelmetProvider>
-  </Wrapper>
-);
+  </StrictMode>,
+)
