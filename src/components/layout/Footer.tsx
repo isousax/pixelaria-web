@@ -78,7 +78,7 @@ export const Footer = () => {
               </li>
               <li className="flex items-start gap-2">
                 <MapPin className="w-4 h-4 mt-0.5 shrink-0" />
-                <span>São Paulo, SP - Brasil</span>
+                <span>Recife, PE - Brasil</span>
               </li>
             </ul>
           </div>

@@ -44,10 +44,18 @@ export const Processo = () => {
     setExpandedStep(expandedStep === id ? null : id);
   };
 
+  const handleProgressChange = (value: number) => {
+    setSimulatedProgress(value);
+    // Auto-expand current step
+    if (value > 0 && value <= enhancedSteps.length) {
+      setExpandedStep(value);
+    }
+  };
+
   return (
     <div className="bg-neutral-50">
       {/* Hero Section */}
-      <section className="relative bg-linear-to-br from-primary-600 to-secondary-600 py-20 text-white overflow-hidden">
+      <section className="relative bg-linear-to-br from-primary-600 to-secondary-600 py-12 overflow-hidden">
         <div className="absolute inset-0 opacity-10">
           <motion.div
             animate={{ scale: [1, 1.2, 1], rotate: [0, 90, 0] }}
@@ -62,36 +70,36 @@ export const Processo = () => {
             animate={{ opacity: 1, y: 0 }}
             className="text-center max-w-4xl mx-auto"
           >
-            <Badge variant="default" size="lg" className="mb-6 bg-white/20 text-white border-white/30">
+            <Badge variant="default" size="lg" className="mb-6 bg-white/20 border-white/30">
               <Target className="w-4 h-4" />
               Processo Transparente
             </Badge>
             <h1 className="text-5xl lg:text-6xl font-black mb-6">Nosso Processo</h1>
-            <p className="text-xl text-white/90 mb-8">
+            <p className="text-xl mb-8">
               Do briefing ao lançamento, cada etapa é planejada para garantir o melhor resultado. <br />
               Um processo transparente, ágil e eficiente.
             </p>
             
-            <div className="flex flex-wrap items-center justify-center gap-6 mt-8">
+            <div className="flex grid-cols-3 items-center justify-evenly gap-6 mt-8">
               <div className="flex items-center gap-2">
                 <Clock className="w-6 h-6" />
                 <div className="text-left">
-                  <div className="text-sm text-white/80">Prazo Total</div>
-                  <div className="text-2xl font-bold">{totalMinDays}-{totalMaxDays} dias</div>
+                  <div className="text-xs sm:text-sm">Prazo Total</div>
+                  <div className="text-lg sm:text-2xl font-bold">{totalMinDays}-{totalMaxDays}d</div>
                 </div>
               </div>
               <div className="flex items-center gap-2">
                 <TrendingUp className="w-6 h-6" />
                 <div className="text-left">
-                  <div className="text-sm text-white/80">Etapas</div>
-                  <div className="text-2xl font-bold">{processSteps.length} fases</div>
+                  <div className="text-xs sm:text-sm">Etapas</div>
+                  <div className="text-xl sm:text-2xl font-bold">{processSteps.length}</div>
                 </div>
               </div>
               <div className="flex items-center gap-2">
                 <CheckCircle2 className="w-6 h-6" />
                 <div className="text-left">
-                  <div className="text-sm text-white/80">Taxa de Sucesso</div>
-                  <div className="text-2xl font-bold">100%</div>
+                  <div className="text-xs sm:text-sm">Taxa de Sucesso</div>
+                  <div className="text-lg sm:text-2xl font-bold">100%</div>
                 </div>
               </div>
             </div>
@@ -100,7 +108,7 @@ export const Processo = () => {
       </section>
 
       {/* Interactive Timeline */}
-      <section className="py-20">
+      <section className="py-18">
         <div className="container-custom max-w-5xl">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -134,6 +142,7 @@ export const Processo = () => {
                 return (
                   <motion.div
                     key={step.id}
+                    id={`step-${step.id}`}
                     initial={{ opacity: 0, x: -30 }}
                     whileInView={{ opacity: 1, x: 0 }}
                     viewport={{ once: true }}
@@ -143,7 +152,9 @@ export const Processo = () => {
                     <Card
                       variant={isExpanded ? 'elevated' : 'bordered'}
                       padding="none"
-                      className="overflow-hidden hover:shadow-lg transition-all duration-300"
+                      className={`overflow-hidden hover:shadow-lg transition-all duration-300 ${
+                        isCompleted ? 'ring-2 ring-green-500 ring-opacity-50' : ''
+                      }`}
                     >
                       {/* Step Header */}
                       <button
@@ -157,18 +168,26 @@ export const Processo = () => {
                           animate={{ scale: isCompleted ? 1.1 : 1 }}
                         >
                           {isCompleted ? (
-                            <CheckCircle2 className="w-5 h-5 text-white" />
+                            <CheckCircle2 className="w-5 h-5" />
                           ) : (
-                            <span className="text-white text-xs font-bold">{step.id}</span>
+                            <span className="text-xs font-bold">{step.id}</span>
                           )}
                         </motion.div>
 
                         {/* Icon */}
-                        <div className={`w-16 h-16 rounded-2xl flex items-center justify-center shrink-0 transition-colors ${
-                          isExpanded ? 'bg-primary-600 text-white' : 'bg-primary-100 text-primary-600'
-                        }`}>
-                          {IconComponent && <IconComponent className="w-8 h-8" />}
-                        </div>
+                        <motion.div 
+                          className={`w-16 h-16 rounded-2xl flex items-center justify-center shrink-0 transition-colors ${
+                            isCompleted ? 'bg-green-600' : isExpanded ? 'bg-primary-600' : 'bg-primary-100 text-primary-600'
+                          }`}
+                          animate={isCompleted ? { scale: [1, 1.1, 1] } : {}}
+                          transition={{ duration: 0.5 }}
+                        >
+                          {isCompleted ? (
+                            <CheckCircle2 className="w-8 h-8" />
+                          ) : (
+                            IconComponent && <IconComponent className="w-8 h-8" />
+                          )}
+                        </motion.div>
 
                         {/* Content */}
                         <div className="flex-1">
@@ -238,36 +257,128 @@ export const Processo = () => {
           </div>
 
           {/* Progress Simulator */}
-          <Card variant="gradient" padding="lg" className="mt-12 text-white">
+          <Card variant="gradient" padding="lg" className="mt-12">
             <h3 className="text-2xl font-bold mb-4 flex items-center gap-2">
               <Sparkles className="w-6 h-6" />
               Simule o Progresso do Seu Projeto
             </h3>
-            <p className="mb-6 text-white/90">
+            <p className="mb-6">
               Mova o slider para ver como seria o progresso do seu site em cada etapa
             </p>
+            
+            {/* Progress Bar */}
+            <div className="mb-4">
+              <div className="flex justify-between text-sm mb-2">
+                <span>0%</span>
+                <span className="font-bold">
+                  {Math.round((simulatedProgress / processSteps.length) * 100)}%
+                </span>
+                <span>100%</span>
+              </div>
+              <div className="relative h-4 bg-white/20 rounded-full overflow-hidden">
+                <motion.div
+                  className="absolute top-0 left-0 h-full bg-linear-to-r from-green-400 to-green-600 rounded-full"
+                  initial={{ width: 0 }}
+                  animate={{ width: `${(simulatedProgress / processSteps.length) * 100}%` }}
+                  transition={{ duration: 0.5, ease: 'easeOut' }}
+                />
+              </div>
+            </div>
+            
             <input
               type="range"
               min="0"
               max={processSteps.length}
               value={simulatedProgress}
-              onChange={(e) => setSimulatedProgress(Number(e.target.value))}
-              className="w-full h-3 bg-white/20 rounded-lg appearance-none cursor-pointer mb-4"
+              onChange={(e) => handleProgressChange(Number(e.target.value))}
+              className="w-full h-3 bg-white/20 rounded-lg appearance-none cursor-pointer mb-6"
+              style={{
+                background: `linear-gradient(to right, rgba(255,255,255,0.4) 0%, rgba(255,255,255,0.4) ${(simulatedProgress / processSteps.length) * 100}%, rgba(255,255,255,0.2) ${(simulatedProgress / processSteps.length) * 100}%, rgba(255,255,255,0.2) 100%)`
+              }}
             />
-            <div className="flex justify-between items-center">
-              <span className="text-lg">
-                Etapa <strong>{simulatedProgress}</strong> de {processSteps.length}
-              </span>
-              <span className="text-lg">
-                {simulatedProgress === 0 ? 'Início' : simulatedProgress === processSteps.length ? 'Concluído!' : enhancedSteps[simulatedProgress - 1]?.title}
-              </span>
+            
+            <div className="grid md:grid-cols-2 gap-4">
+              <div className="bg-white/10 rounded-lg p-4">
+                <div className="flex items-center gap-2 mb-2">
+                  <Target className="w-5 h-5" />
+                  <span className="font-semibold">Etapa Atual</span>
+                </div>
+                <p className="text-2xl font-bold">
+                  {simulatedProgress === 0 
+                    ? 'Início do Projeto' 
+                    : simulatedProgress === processSteps.length 
+                    ? '🎉 Projeto Concluído!' 
+                    : enhancedSteps[simulatedProgress - 1]?.title}
+                </p>
+              </div>
+              
+              <div className="bg-white/10 rounded-lg p-4">
+                <div className="flex items-center gap-2 mb-2">
+                  <Calendar className="w-5 h-5" />
+                  <span className="font-semibold">Tempo Estimado</span>
+                </div>
+                <p className="text-2xl font-bold">
+                  {simulatedProgress === 0 
+                    ? `${totalMinDays}-${totalMaxDays} dias` 
+                    : simulatedProgress === processSteps.length
+                    ? 'Site no Ar!'
+                    : `${enhancedSteps.slice(0, simulatedProgress).reduce((sum, s) => {
+                        const days = s.duration.match(/\d+/g);
+                        return sum + (days ? parseInt(days[0]) : 0);
+                      }, 0)}-${enhancedSteps.slice(0, simulatedProgress).reduce((sum, s) => {
+                        const days = s.duration.match(/\d+/g);
+                        return sum + (days && days[1] ? parseInt(days[1]) : days ? parseInt(days[0]) : 0);
+                      }, 0)} dias decorridos`}
+                </p>
+              </div>
+            </div>
+            
+            {simulatedProgress === processSteps.length && (
+              <motion.div
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ opacity: 1, scale: 1 }}
+                className="mt-4 bg-white/20 rounded-lg p-4 text-center"
+              >
+                <CheckCircle2 className="w-12 h-12 mx-auto mb-2" />
+                <p className="text-lg font-bold">
+                  Parabéns! Seu site está pronto para conquistar a internet! 🚀
+                </p>
+              </motion.div>
+            )}
+            
+            <div className="mt-4 flex gap-2">
+              <Button
+                variant="secondary"
+                size="sm"
+                onClick={() => handleProgressChange(0)}
+                disabled={simulatedProgress === 0}
+              >
+                Reiniciar
+              </Button>
+              <Button
+                variant="secondary"
+                size="sm"
+                onClick={() => handleProgressChange(Math.min(simulatedProgress + 1, processSteps.length))}
+                disabled={simulatedProgress === processSteps.length}
+              >
+                Próxima Etapa
+              </Button>
+              {simulatedProgress > 0 && (
+                <Button
+                  variant="secondary"
+                  size="sm"
+                  onClick={() => handleProgressChange(processSteps.length)}
+                >
+                  Ir para o Final
+                </Button>
+              )}
             </div>
           </Card>
         </div>
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 bg-linear-to-br from-primary-600 to-secondary-600 text-white">
+      <section className="py-20 bg-linear-to-br from-primary-600 to-secondary-600">
         <div className="container-custom text-center">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -278,7 +389,7 @@ export const Processo = () => {
             <h2 className="text-4xl lg:text-5xl font-black mb-6">
               Pronto para começar seu projeto?
             </h2>
-            <p className="text-xl text-white/90 mb-8 max-w-2xl mx-auto">
+            <p className="text-xl mb-8 max-w-2xl mx-auto">
               Inicie agora e tenha seu site profissional no ar em até {totalMaxDays} dias
             </p>
             <Button

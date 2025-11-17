@@ -110,6 +110,14 @@ export const Home = () => {
 
                 <div className="flex flex-col sm:flex-row gap-4 mb-8">
                   <Button
+                    as={Link}
+                    to="/onboarding"
+                    variant="outline"
+                    size="lg"
+                  >
+                    Briefing Online
+                  </Button>
+                  <Button
                     onClick={() =>
                       window.open(
                         createWhatsAppLink(whatsAppMessages.general),
@@ -123,14 +131,6 @@ export const Home = () => {
                     className="gap-10"
                   >
                     Falar com Especialista
-                  </Button>
-                  <Button
-                    as={Link}
-                    to="/onboarding"
-                    variant="outline"
-                    size="lg"
-                  >
-                    Briefing Online
                   </Button>
                 </div>
 

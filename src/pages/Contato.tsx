@@ -26,7 +26,7 @@ const contactMethods = [
     icon: MessageSquare,
     title: 'WhatsApp',
     description: 'Resposta em minutos',
-    info: '(11) 99999-9999',
+    info: '(81) 99272-0219',
     action: 'Abrir WhatsApp',
     link: createWhatsAppLink(whatsAppMessages.general),
     color: 'green',
@@ -46,9 +46,9 @@ const contactMethods = [
     icon: Phone,
     title: 'Telefone',
     description: 'Seg-Sex, 9h-18h',
-    info: '(11) 3333-4444',
+    info: '(81) 99272-0219',
     action: 'Ligar Agora',
-    link: 'tel:+551133334444',
+    link: 'tel:+5581992720219',
     color: 'purple',
     available: true,
   },
@@ -115,7 +115,7 @@ export const Contato = () => {
       
       <div className="bg-neutral-50">
         {/* Hero Section */}
-      <section className="relative bg-linear-to-br from-primary-600 to-secondary-600 py-20 text-white overflow-hidden">
+      <section className="relative bg-linear-to-br from-primary-600 to-secondary-600 py-12 overflow-hidden">
         <div className="absolute inset-0 opacity-10">
           <motion.div
             animate={{ scale: [1, 1.2, 1], rotate: [0, 90, 0] }}
@@ -130,12 +130,12 @@ export const Contato = () => {
             animate={{ opacity: 1, y: 0 }}
             className="text-center max-w-4xl mx-auto"
           >
-            <Badge variant="default" size="lg" className="mb-6 bg-white/20 text-white border-white/30">
+            <Badge variant="default" size="lg" className="mb-6 bg-white/20 border-white/30">
               <MessageSquare className="w-4 h-4" />
               Fale Conosco
             </Badge>
             <h1 className="text-5xl lg:text-6xl font-black mb-6">Entre em Contato</h1>
-            <p className="text-xl text-white/90 mb-8">
+            <p className="text-xl mb-8">
               Estamos aqui para tirar suas dúvidas e criar seu projeto. <br />
               Escolha a forma de contato que preferir!
             </p>
@@ -294,7 +294,7 @@ export const Contato = () => {
             </Card>
 
             {/* Location */}
-            <Card variant="gradient" padding="lg" className="text-white">
+            <Card variant="gradient" padding="lg">
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <MapPin className="w-6 h-6" />
@@ -302,8 +302,8 @@ export const Contato = () => {
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-white/90 mb-4">
-                  <strong>São Paulo, SP - Brasil</strong>
+                <p className="mb-4">
+                  <strong>Recife, PE - Brasil</strong>
                   <br />
                   Atendimento 100% online para todo o país
                 </p>
@@ -403,7 +403,7 @@ export const Contato = () => {
       </div>
 
       {/* CTA Section */}
-      <section className="py-20 bg-linear-to-br from-primary-600 to-secondary-600 text-white">
+      <section className="py-20 bg-linear-to-br from-primary-600 to-secondary-600">
         <div className="container-custom text-center">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -414,7 +414,7 @@ export const Contato = () => {
             <h2 className="text-4xl lg:text-5xl font-black mb-6">
               Preferir falar agora pelo WhatsApp?
             </h2>
-            <p className="text-xl text-white/90 mb-8 max-w-2xl mx-auto">
+            <p className="text-xl mb-8 max-w-2xl mx-auto">
               Nosso time está online e pronto para te atender
             </p>
             <Button

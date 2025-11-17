@@ -658,7 +658,7 @@ export const BlogPost = () => {
               viewport={{ once: true }}
               className="mt-12"
             >
-              <div className="relative bg-gradient-to-br from-primary-600 via-primary-700 to-secondary-600 rounded-2xl p-10 text-center text-white overflow-hidden shadow-soft-lg">
+              <div className="relative bg-gradient-to-br from-primary-600 via-primary-700 to-secondary-600 rounded-2xl p-10 text-center overflow-hidden shadow-soft-lg">
                 <div className="absolute inset-0 opacity-10">
                   <motion.div
                     animate={{ scale: [1, 1.2, 1], rotate: [0, 90, 0] }}
@@ -671,7 +671,7 @@ export const BlogPost = () => {
                   <h2 className="text-3xl font-bold mb-4">
                     Gostou deste conteúdo?
                   </h2>
-                  <p className="text-lg text-white/90 mb-6 max-w-2xl mx-auto">
+                  <p className="text-lg mb-6 max-w-2xl mx-auto">
                     Então você vai amar trabalhar conosco. Vamos criar seu site profissional?
                   </p>
                   <div className="flex flex-col sm:flex-row gap-4 justify-center">
@@ -685,7 +685,7 @@ export const BlogPost = () => {
                     <Button
                       variant="outline"
                       size="lg"
-                      className="bg-white/10 border-white text-white hover:bg-white hover:text-primary-600"
+                      className="bg-white/10 border-white hover:bg-white hover:text-primary-600"
                       onClick={() => navigate('/contato')}
                     >
                       Falar com Especialista

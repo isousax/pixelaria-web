@@ -95,7 +95,7 @@ export const stats = [
   export const faqs = [
     {
       question: 'Qual a diferença entre assinatura e compra única?',
-      answer: 'Na assinatura mensal (R$90/mês), cuidamos de tudo: hospedagem, backups, segurança, 1 alteração mensal e suporte contínuo. Na compra única (R$2.500), você recebe o código-fonte e tem propriedade total, mas precisa contratar hospedagem e fazer manutenções por conta própria.',
+      answer: 'Na assinatura mensal (R$90/mês), cuidamos de tudo: hospedagem, backups, segurança, 1 alteração mensal e suporte contínuo. Na compra única (R$4.500), você recebe o código-fonte e tem propriedade total, mas precisa contratar hospedagem e fazer manutenções por conta própria.',
     },
     {
       question: 'Quanto tempo leva para criar meu site?',
@@ -103,15 +103,15 @@ export const stats = [
     },
     {
       question: 'Posso mudar de assinatura para compra única depois?',
-      answer: 'Sim! A qualquer momento você pode adquirir o código-fonte pagando a diferença proporcional ao tempo de assinatura. Por exemplo, após 6 meses, o valor seria menor que R$2.500.',
+      answer: 'Sim! A qualquer momento você pode adquirir o código-fonte pagando a diferença proporcional ao tempo de assinatura. Por exemplo, após 6 meses, o valor seria menor que R$4.500.',
     },
     {
       question: 'O que está incluso na alteração mensal?',
-      answer: 'Uma alteração pode ser: trocar textos/imagens, ajustar cores, adicionar uma seção simples, ou corrigir bugs. Alterações maiores como novas páginas ou funcionalidades complexas têm custo adicional de R$200-800 conforme a complexidade.',
+      answer: 'Uma alteração pode ser: trocar textos/imagens, ajustar cores ou adicionar uma seção simples. Alterações maiores como novas páginas ou funcionalidades complexas têm custo adicional de R$200-800 conforme a complexidade.',
     },
     {
       question: 'Vocês fazem e-commerce?',
-      answer: 'Sim! E-commerce tem custo adicional de R$800 no setup inicial pois requer integração com gateway de pagamento, carrinho de compras, painel administrativo, etc. Inclui até 50 produtos cadastrados.',
+      answer: 'Sim! E-commerce tem um prazo adicional de 10 dias úteis, pois o setup inicial requer integração com gateway de pagamento, carrinho de compras, painel administrativo, etc. Inclui até 50 produtos cadastrados.',
     },
     {
       question: 'Como funciona o suporte?',
