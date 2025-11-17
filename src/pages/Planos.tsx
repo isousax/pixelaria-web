@@ -103,7 +103,7 @@ export const Planos = () => {
 
       <div className="bg-neutral-50 overflow-x-hidden">
         {/* Hero Section */}
-        <section className="relative bg-gradient-to-br from-primary-600 to-secondary-600 py-8 sm:py-16 overflow-hidden ">
+        <section className="relative bg-gradient-to-br from-primary-600 to-secondary-600 py-12 overflow-hidden ">
 
           <div className="container-custom relative z-10">
             <motion.div
