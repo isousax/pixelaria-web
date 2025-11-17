@@ -9,24 +9,72 @@ import { Button } from '../components/ui/Button';
 import { useToast } from '../hooks/useToast';
 import { useNavigate } from 'react-router-dom';
 
+interface OnboardingFormData {
+  projectName?: string;
+  projectType?: string;
+  businessDescription?: string;
+  objectives?: string;
+  targetAudience?: string;
+  pages?: string;
+  contentNotes?: string;
+  requiredFeatures?: string;
+  referenceWebsites?: string;
+  contactName?: string;
+  contactEmail?: string;
+  contactPhone?: string;
+  additionalNotes?: string;
+}
+
 export const Onboarding = () => {
-  const [step, setStep] = useState(1);
+  const [step, setStep] = useState(() => {
+    const savedStep = localStorage.getItem('onboarding-step');
+    return savedStep ? parseInt(savedStep) : 1;
+  });
+  
   const totalSteps = 5;
-  const { register, handleSubmit, formState: { errors } } = useForm();
+  
+  const getSavedData = (): OnboardingFormData => {
+    const savedData = localStorage.getItem('onboarding-data');
+    return savedData ? JSON.parse(savedData) : {};
+  };
+
+  const { register, handleSubmit, formState: { errors }, getValues } = useForm<OnboardingFormData>({
+    defaultValues: getSavedData()
+  });
+  
   const toast = useToast();
   const navigate = useNavigate();
 
+  // Auto-save form data when changing steps
+  const saveFormData = () => {
+    const data = getValues();
+    localStorage.setItem('onboarding-data', JSON.stringify(data));
+  };
+
   const nextStep = () => {
-    if (step < totalSteps) setStep(step + 1);
+    if (step < totalSteps) {
+      saveFormData();
+      const newStep = step + 1;
+      setStep(newStep);
+      localStorage.setItem('onboarding-step', newStep.toString());
+    }
   };
 
   const prevStep = () => {
-    if (step > 1) setStep(step - 1);
+    if (step > 1) {
+      saveFormData();
+      const newStep = step - 1;
+      setStep(newStep);
+      localStorage.setItem('onboarding-step', newStep.toString());
+    }
   };
 
   const onSubmit = (data: unknown) => {
     console.log('Onboarding data:', data);
     toast.success('Briefing recebido! Entraremos em contato em breve.');
+    // Clear saved data after submission
+    localStorage.removeItem('onboarding-data');
+    localStorage.removeItem('onboarding-step');
     setTimeout(() => navigate('/'), 2000);
   };
 
@@ -50,6 +98,23 @@ export const Onboarding = () => {
           <p className="section-subtitle mx-auto">
             Nos conte sobre seu projeto em {totalSteps} passos simples
           </p>
+          {localStorage.getItem('onboarding-data') && (
+            <div className="mt-4 flex items-center justify-center gap-2">
+              <span className="text-sm text-neutral-600">✓ Progresso salvo automaticamente</span>
+              <button
+                onClick={() => {
+                  if (confirm('Deseja limpar o formulário e começar do zero?')) {
+                    localStorage.removeItem('onboarding-data');
+                    localStorage.removeItem('onboarding-step');
+                    window.location.reload();
+                  }
+                }}
+                className="text-sm text-primary-600 hover:text-primary-700 underline"
+              >
+                Limpar
+              </button>
+            </div>
+          )}
         </motion.div>
 
         {/* Progress */}
@@ -60,13 +125,13 @@ export const Onboarding = () => {
                 <div
                   className={`w-10 h-10 rounded-full flex items-center justify-center font-semibold transition-all ${
                     step >= s.number
-                      ? 'bg-primary-600 text-white'
+                      ? 'bg-primary-600'
                       : 'bg-neutral-200 text-neutral-500'
                   }`}
                 >
                   {step > s.number ? <Check className="w-5 h-5" /> : s.number}
                 </div>
-                <span className="text-xs mt-2 text-neutral-600 text-center max-w-[80px]">
+                <span className="text-xs mt-2 text-neutral-600 text-center max-w-20">
                   {s.title}
                 </span>
               </div>
@@ -212,26 +277,31 @@ export const Onboarding = () => {
               )}
             </AnimatePresence>
 
-            <div className="flex justify-between mt-8 pt-6 border-t">
+            <div className="flex justify-between mt-8 pt-6 border-t gap-5">
               <Button
                 type="button"
                 onClick={prevStep}
                 variant="secondary"
                 disabled={step === 1}
+                leftIcon={<ChevronLeft className="w-5 h-5" />}
               >
-                <ChevronLeft className="w-5 h-5" />
                 Voltar
               </Button>
               
               {step < totalSteps ? (
-                <Button type="button" onClick={nextStep}>
+                <Button 
+                  type="button" 
+                  onClick={nextStep}
+                  rightIcon={<ChevronRight className="w-5 h-5" />}
+                >
                   Próximo
-                  <ChevronRight className="w-5 h-5" />
                 </Button>
               ) : (
-                <Button type="submit">
+                <Button 
+                  type="submit"
+                  rightIcon={<Check className="w-5 h-5" />}
+                >
                   Enviar Briefing
-                  <Check className="w-5 h-5" />
                 </Button>
               )}
             </div>

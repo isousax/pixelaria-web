@@ -795,7 +795,7 @@ export const Home = () => {
                 </div>
               </div>
 
-              <div className="flex items-center justify-center gap-4 pt-8 border-t border-white/20">
+              <div className="flex items-center justify-center gap-12 sm:gap-4 pt-8 border-t border-white/20">
                 <div className="flex -space-x-3">
                   {testimonials.slice(0, 3).map((testimonial, i) => (
                     <img
