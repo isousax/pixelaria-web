@@ -118,9 +118,9 @@ export const additionalServices = [
   {
     id: 'seo-advanced',
     name: 'SEO Avançado',
-    description: 'Otimização completa: análise de palavras-chave, link building, relatórios mensais',
+    description: 'Otimização completa: análise de palavras-chave, link building, relatórios',
     price: 600,
-    unit: 'mensal',
+    unit: 'único',
   },
   {
     id: 'blog-system',
