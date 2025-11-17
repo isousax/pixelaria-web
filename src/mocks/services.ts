@@ -32,7 +32,7 @@ export const services: Service[] = [
   {
     id: 'seo',
     name: 'SEO e Performance',
-    description: 'Otimizamos seu site para aparecer nos resultados do Google. Análise de palavras-chave, otimização de conteúdo e melhorias de performance.',
+    description: 'Mantemos o SEO do seu site sempre atualizado. A configuração inicial já foi feita na entrega do site; aqui realizamos ajustes de palavras-chave, otimização de conteúdo e melhorias de performance.',
     icon: 'TrendingUp',
     features: [
       'Análise de palavras-chave',
@@ -46,7 +46,7 @@ export const services: Service[] = [
   {
     id: 'content',
     name: 'Criação de Conteúdo',
-    description: 'Produzimos conteúdo relevante e otimizado para seu site. Textos persuasivos, imagens profissionais e estratégia de conteúdo.',
+    description: 'Produzimos novos conteúdos relevantes e otimizados para seu site. Textos persuasivos, imagens profissionais e estratégia de conteúdo.',
     icon: 'FileText',
     features: [
       'Redação profissional',

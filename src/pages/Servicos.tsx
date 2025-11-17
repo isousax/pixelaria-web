@@ -47,7 +47,7 @@ const enhancedServices = [
   },
   {
     ...services[1], // Manutenção
-    price: 'R$ 40',
+    price: '- (já incluso)',
     priceRecurring: null,
     duration: 'Contínuo',
     included: [
@@ -78,7 +78,7 @@ const enhancedServices = [
   },
   {
     ...services[2], // SEO
-    price: 'R$ 450/mês',
+    price: 'R$ 350',
     priceRecurring: null,
     duration: 'Mínimo 3 meses',
     included: [
@@ -109,11 +109,11 @@ const enhancedServices = [
   },
   {
     ...services[3], // Conteúdo
-    price: 'R$ 350/mês',
+    price: 'R$ 350',
     priceRecurring: null,
     duration: 'Por pacote',
     included: [
-      'Até 4 páginas de conteúdo/mês',
+      'Até 4 páginas de conteúdo',
       'Redação profissional otimizada',
       'Seleção de imagens de banco (até 10)',
       'Copywriting persuasivo',
@@ -160,7 +160,7 @@ export const Servicos = () => {
       
       <div className="bg-neutral-50">
         {/* Hero Section */}
-      <section className="relative bg-linear-to-br from-primary-600 to-secondary-600 py-20 overflow-hidden">
+      <section className="relative bg-linear-to-br from-primary-600 to-secondary-600 py-12 overflow-hidden">
         <div className="absolute inset-0 opacity-10">
           <motion.div
             animate={{ scale: [1, 1.2, 1], rotate: [0, 90, 0] }}
@@ -194,7 +194,7 @@ export const Servicos = () => {
       </section>
 
       {/* Services Grid */}
-      <section className="py-20">
+      <section className="py-8">
         <div className="container-custom">
           <div className="space-y-8">
             {enhancedServices.map((service, index) => {
@@ -214,7 +214,7 @@ export const Servicos = () => {
                     <div className={`bg-${service.color}-50 p-8`}>
                       <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
                         <div className="flex items-start gap-6">
-                          <div className={`bg-${service.color}-100 w-16 h-16 rounded-2xl flex items-center justify-center text-${service.color}-600 shrink-0`}>
+                          <div className={`hidden lg:flex bg-${service.color}-100 w-16 h-16 rounded-2xl items-center justify-center text-${service.color}-600 shrink-0`}>
                             {IconComponent && <IconComponent className="w-8 h-8" />}
                           </div>
                           <div>

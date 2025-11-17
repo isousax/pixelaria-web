@@ -22,7 +22,7 @@ interface ButtonProps extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'typ
 
 const buttonVariants = {
   primary: 
-    'bg-primary-600 hover:bg-primary-700 active:bg-primary-800 text-white shadow-soft hover:shadow-soft-lg ' +
+    'bg-primary-600 hover:bg-primary-700 active:bg-primary-800 shadow-soft hover:shadow-soft-lg ' +
     'focus:ring-4 focus:ring-primary-200 disabled:bg-primary-300 disabled:shadow-none ' +
     'border border-primary-700 hover:border-primary-800',
   
@@ -47,12 +47,12 @@ const buttonVariants = {
     'border border-primary-700',
   
   danger: 
-    'bg-red-600 hover:bg-red-700 active:bg-red-800 text-white shadow-soft hover:shadow-soft-lg ' +
+    'bg-red-600 hover:bg-red-700 active:bg-red-800 shadow-soft hover:shadow-soft-lg ' +
     'focus:ring-4 focus:ring-red-200 disabled:bg-red-300 ' +
     'border border-red-700 hover:border-red-800',
   
   success: 
-    'bg-green-600 hover:bg-green-700 active:bg-green-800 text-white shadow-soft hover:shadow-soft-lg ' +
+    'bg-green-600 hover:bg-green-700 active:bg-green-800 shadow-soft hover:shadow-soft-lg ' +
     'focus:ring-4 focus:ring-green-200 disabled:bg-green-300 ' +
     'border border-green-700 hover:border-green-800',
 };

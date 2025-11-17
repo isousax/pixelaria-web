@@ -16,7 +16,7 @@ const cardVariants = {
   bordered: 'bg-white border-2 border-neutral-300',
   elevated: 'bg-white shadow-soft-lg',
   flat: 'bg-neutral-50',
-  gradient: 'bg-gradient-to-br from-primary-600 via-primary-700 to-secondary-600 text-white',
+  gradient: 'bg-gradient-to-br from-primary-600 via-primary-700 to-secondary-600',
   glass: 'bg-white/80 backdrop-blur-lg border border-white/30 shadow-soft',
 };
 
@@ -103,7 +103,7 @@ export const Card = ({
     >
       {/* Decorative gradient overlay for gradient variant */}
       {variant === 'gradient' && (
-        <div className="absolute inset-0 bg-gradient-to-br from-primary-500/5 to-secondary-500/5 pointer-events-none" />
+        <div className="absolute inset-0 bg-linear-to-br from-primary-500/5 to-secondary-500/5 pointer-events-none" />
       )}
       
       {/* Content */}
