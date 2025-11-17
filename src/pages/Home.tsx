@@ -332,6 +332,14 @@ export const Home = () => {
                   </ul>
                   <div className="flex flex-col sm:flex-row gap-4 justify-center">
                     <Button
+                      as={Link}
+                      to={selectedPlan.ctaLink}
+                      variant="secondary"
+                      size="lg"
+                    >
+                      {selectedPlan.ctaText}
+                    </Button>
+                    <Button
                       onClick={() =>
                         window.open(
                           createWhatsAppLink(
@@ -343,16 +351,9 @@ export const Home = () => {
                         )
                       }
                       size="lg"
+                      variant="gradient"
                     >
-                      Contratar via WhatsApp
-                    </Button>
-                    <Button
-                      as={Link}
-                      to={selectedPlan.ctaLink}
-                      variant="secondary"
-                      size="lg"
-                    >
-                      {selectedPlan.ctaText}
+                      Falar no WhatsApp
                     </Button>
                   </div>
                 </Card>
@@ -409,7 +410,7 @@ export const Home = () => {
         </section>
 
         {/* Differentiators Section */}
-        <section className="bg-linear-to-br from-primary-600 to-secondary-600 py-20 text-white relative overflow-hidden">
+        <section className="bg-linear-to-br from-primary-600 to-secondary-600 py-20 relative overflow-hidden">
           <div className="absolute inset-0 opacity-10">
             <div className="absolute top-0 left-1/4 w-96 h-96 bg-white rounded-full blur-3xl" />
             <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-white rounded-full blur-3xl" />
@@ -424,14 +425,14 @@ export const Home = () => {
             >
               <Badge
                 variant="default"
-                className="mb-4 bg-white/20 text-white border-white/30"
+                className="mb-4 bg-white/20 border-white/30"
               >
                 Por que somos diferentes
               </Badge>
               <h2 className="text-4xl lg:text-5xl font-black mb-6">
                 Transparência e Flexibilidade
               </h2>
-              <p className="text-xl text-white/90 max-w-3xl mx-auto">
+              <p className="text-xl max-w-3xl mx-auto">
                 Não escondemos nada e nos adaptamos às suas necessidades
               </p>
             </motion.div>
@@ -450,15 +451,13 @@ export const Home = () => {
                     <Card
                       variant="glass"
                       padding="lg"
-                      className="h-full backdrop-blur-xl bg-white/10 border-white/20 text-white hover:bg-white/20"
+                      className="h-full backdrop-blur-xl bg-white/10 border-white/20 hover:bg-white/20"
                     >
                       <div className="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center mb-6">
                         <Icon className="w-6 h-6" />
                       </div>
                       <h3 className="text-2xl font-bold mb-3">{item.title}</h3>
-                      <p className="text-white/90 leading-relaxed">
-                        {item.description}
-                      </p>
+                      <p className="leading-relaxed">{item.description}</p>
                     </Card>
                   </motion.div>
                 );
@@ -727,12 +726,12 @@ export const Home = () => {
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              className="text-center text-white max-w-4xl mx-auto"
+              className="text-center max-w-4xl mx-auto"
             >
               <Badge
                 variant="default"
                 size="lg"
-                className="mb-6 bg-white/20 text-white border-white/30"
+                className="mb-6 bg-white/20 border-white/30"
               >
                 <Sparkles className="w-4 h-4" />
                 Última chamada
@@ -749,7 +748,7 @@ export const Home = () => {
                 Mais de 200 empresas já confiam na Pixelaria para criar suas
                 presenças digitais.
                 <br />
-                <strong className="text-white">Você será o próximo?</strong>
+                <strong>Você será o próximo?</strong>
               </p>
 
               <div className="flex flex-col items-center gap-6 mb-12">
@@ -766,7 +765,7 @@ export const Home = () => {
                     leftIcon={<MessageCircle className="w-6 h-6" />}
                     className="shadow-2xl shadow-secondary-500/50"
                   >
-                    Falar no WhatsApp Agora
+                    Falar no WhatsApp
                   </Button>
                   <Button
                     as={Link}
@@ -774,13 +773,13 @@ export const Home = () => {
                     variant="outline"
                     size="xl"
                     leftIcon={<Sparkles className="w-6 h-6" />}
-                    className="bg-white/10 backdrop-blur-sm border-2 border-white text-white hover:bg-white hover:text-primary-600"
+                    className="bg-white/10 backdrop-blur-sm border-2 border-white hover:bg-white hover:text-primary-600"
                   >
                     Iniciar Briefing Online
                   </Button>
                 </div>
 
-                <div className="flex flex-wrap items-center justify-center gap-6 text-white/90">
+                <div className="flex flex-wrap items-center justify-center gap-6">
                   <div className="flex items-center gap-2">
                     <CheckCircle2 className="w-5 h-5 text-green-300" />
                     <span>Resposta em 24h</span>
@@ -816,7 +815,7 @@ export const Home = () => {
                       />
                     ))}
                   </div>
-                  <p className="text-sm text-white/90">
+                  <p className="text-sm">
                     <strong>98% de satisfação</strong> · 200+ clientes atendidos
                   </p>
                 </div>

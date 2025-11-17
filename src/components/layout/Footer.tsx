@@ -65,19 +65,19 @@ export const Footer = () => {
             <h3 className="text-white font-semibold mb-4">Contato</h3>
             <ul className="space-y-3 text-sm">
               <li className="flex items-start gap-2">
-                <Mail className="w-4 h-4 mt-0.5 flex-shrink-0" />
+                <Mail className="w-4 h-4 mt-0.5 shrink-0" />
                 <a href="mailto:contato@pixelaria.com.br" className="hover:text-white transition-colors">
                   contato@pixelaria.com.br
                 </a>
               </li>
               <li className="flex items-start gap-2">
-                <Phone className="w-4 h-4 mt-0.5 flex-shrink-0" />
-                <a href="tel:+5511999999999" className="hover:text-white transition-colors">
-                  (11) 99999-9999
+                <Phone className="w-4 h-4 mt-0.5 shrink-0" />
+                <a href="tel:+5581992720219" className="hover:text-white transition-colors">
+                  (81) 99272-0219
                 </a>
               </li>
               <li className="flex items-start gap-2">
-                <MapPin className="w-4 h-4 mt-0.5 flex-shrink-0" />
+                <MapPin className="w-4 h-4 mt-0.5 shrink-0" />
                 <span>São Paulo, SP - Brasil</span>
               </li>
             </ul>
