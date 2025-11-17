@@ -66,7 +66,7 @@ export const Header = () => {
   return (
     <>
       <header 
-        className={`sticky top-0 z-[90] transition-all duration-300 ${
+        className={`sticky top-0 z-90 transition-all duration-300 ${
           isScrolled 
             ? 'bg-white/95 backdrop-blur-lg shadow-lg py-2' 
             : 'bg-white/80 backdrop-blur-md py-4'
@@ -80,12 +80,12 @@ export const Header = () => {
               className="flex items-center gap-3 group"
             >
               <div className="relative">
-                <div className="bg-gradient-to-br from-primary-600 to-primary-700 p-2 rounded-xl group-hover:scale-105 transition-transform duration-300 shadow-lg">
+                <div className="bg-linear-to-br from-primary-600 to-primary-700 p-2 rounded-xl group-hover:scale-105 transition-transform duration-300 shadow-lg">
                   <Code2 className="w-6 h-6" />
                 </div>
-                <div className="absolute inset-0 bg-gradient-to-br from-primary-400 to-primary-600 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 -z-10 blur-sm" />
+                <div className="absolute inset-0 bg-linear-to-br from-primary-400 to-primary-600 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 -z-10 blur-sm" />
               </div>
-              <span className="text-2xl font-bold bg-gradient-to-r from-neutral-900 to-primary-700 bg-clip-text text-transparent">
+              <span className="text-2xl font-bold bg-linear-to-r from-neutral-900 to-primary-700 bg-clip-text ">
                 Pixelaria
               </span>
             </Link>
@@ -104,7 +104,7 @@ export const Header = () => {
                 >
                   {link.label}
                   <span 
-                    className={`absolute bottom-0 left-1/2 w-0 h-0.5 bg-gradient-to-r from-primary-600 to-primary-400 transition-all duration-300 group-hover:w-4/5 group-hover:left-1/10 ${
+                    className={`absolute bottom-0 left-1/2 w-0 h-0.5 bg-linear-to-r from-primary-600 to-primary-400 transition-all duration-300 group-hover:w-4/5 group-hover:left-1/10 ${
                       location.pathname === link.to ? 'w-4/5 left-1/10' : ''
                     }`}
                   />
@@ -112,7 +112,7 @@ export const Header = () => {
               ))}
               <Link
                 to="/dashboard"
-                className="ml-4 px-6 py-2.5 bg-gradient-to-r from-primary-600 to-primary-700 hover:from-primary-700 hover:to-primary-800 rounded-lg font-semibold transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105 active:scale-95 bg-gray-100"
+                className="ml-4 px-6 py-2.5 bg-linear-to-r from-primary-600 to-primary-700 hover:from-primary-700 hover:to-primary-800 rounded-lg font-semibold transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105 active:scale-95 bg-gray-100"
               >
                 Área do Cliente
               </Link>
@@ -140,7 +140,7 @@ export const Header = () => {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={() => setMobileMenuOpen(false)}
-              className="lg:hidden fixed inset-0 bg-black/60 backdrop-blur-sm z-[100]"
+              className="lg:hidden fixed inset-0 bg-black/60 backdrop-blur-sm z-100"
             />
             
             {/* Sidebar */}
@@ -149,12 +149,12 @@ export const Header = () => {
               animate={{ x: 0 }}
               exit={{ x: '100%' }}
               transition={{ type: 'spring', damping: 30, stiffness: 300 }}
-              className="lg:hidden fixed top-0 right-0 h-full w-80 max-w-full bg-white shadow-2xl z-[101] border-l border-neutral-200 overflow-y-auto"
+              className="lg:hidden fixed top-0 right-0 h-full w-80 max-w-full bg-white shadow-2xl z-101 border-l border-neutral-200 overflow-y-auto"
             >
               {/* Header da Sidebar */}
               <div className="flex items-center justify-between p-6 border-b border-neutral-200">
                 <div className="flex items-center gap-3">
-                  <div className="bg-gradient-to-br from-primary-600 to-primary-700 p-2 rounded-xl">
+                  <div className="bg-linear-to-br from-primary-600 to-primary-700 p-2 rounded-xl">
                     <Code2 className="w-5 h-5" />
                   </div>
                   <span className="text-lg font-bold text-neutral-900">Pixelaria</span>
@@ -189,7 +189,7 @@ export const Header = () => {
                   <Link
                     to="/dashboard"
                     onClick={() => setMobileMenuOpen(false)}
-                    className="block w-full py-4 text-center bg-gradient-to-r from-primary-600 to-primary-700 hover:from-primary-700 hover:to-primary-800 rounded-xl font-semibold transition-all duration-300 shadow-lg active:scale-95 bg-gray-100"
+                    className="block w-full py-4 text-center bg-linear-to-r from-primary-600 to-primary-700 hover:from-primary-700 hover:to-primary-800 rounded-xl font-semibold transition-all duration-300 shadow-lg active:scale-95 bg-gray-100"
                   >
                     Área do Cliente
                   </Link>

@@ -190,7 +190,17 @@ export const Planos = () => {
                       ))}
                     </ul>
 
-                    <div className="space-y-2 sm:space-y-3">
+                    <div className="space-y-2 sm:space-y-3">                      
+                      <Button
+                        as={Link}
+                        to={plan.ctaLink}
+                        variant="outline"
+                        size="lg"
+                        fullWidth
+                        className="text-sm sm:text-base"
+                      >
+                        {plan.ctaText}
+                      </Button>
                       <Button
                         onClick={() =>
                           window.open(
@@ -210,16 +220,6 @@ export const Planos = () => {
                       >
                         <span className="hidden sm:inline">Contratar via WhatsApp</span>
                         <span className="sm:hidden">Contratar WhatsApp</span>
-                      </Button>
-                      <Button
-                        as={Link}
-                        to={plan.ctaLink}
-                        variant="outline"
-                        size="lg"
-                        fullWidth
-                        className="text-sm sm:text-base"
-                      >
-                        {plan.ctaText}
                       </Button>
                     </div>
                   </div>
@@ -407,7 +407,7 @@ export const Planos = () => {
 
               <div className="mt-8 text-center">
                 <p className="text-sm sm:text-base mb-4">
-                  💡 <strong>Dica:</strong> A assinatura é ideal para até {Math.floor(4500 / 90)} meses. Depois disso, a compra única se torna mais econômica.
+                  💡 <strong>Dica:</strong> A assinatura é ideal para até {Math.floor(5000 / 90)} meses. Depois disso, a compra única se torna mais econômica (deconsiderando hospedagem).
                 </p>
               </div>
             </Card>
@@ -531,14 +531,43 @@ export const Planos = () => {
                   viewport={{ once: true }}
                   transition={{ delay: index * 0.1 }}
                 >
-                  <Card hover="lift" padding="lg" className="h-full">
-                    <h3 className="text-xl font-bold mb-2 text-neutral-900">{service.name}</h3>
-                    <p className="text-neutral-600 text-sm mb-4 line-clamp-2">{service.description}</p>
-                    <div className="flex items-baseline gap-1 mt-auto">
-                      <span className="text-2xl font-bold text-primary-600">
-                        {formatCurrency(service.price)}
-                      </span>
-                      <span className="text-neutral-600 text-sm">/{service.unit}</span>
+                  <Card 
+                    hover="lift" 
+                    padding="lg" 
+                    className="h-full flex flex-col cursor-pointer group transition-all hover:border-primary-400"
+                    onClick={() => {
+                      const message = `Olá! Tenho interesse no serviço *${service.name}* (${formatCurrency(service.price)}/${service.unit}).\n\n${service.description}\n\nPoderia me passar mais informações?`;
+                      window.open(createWhatsAppLink(message), '_blank');
+                    }}
+                  >
+                    <div className="flex-1">
+                      <h3 className="text-xl font-bold mb-2 text-neutral-900 group-hover:text-primary-600 transition-colors">
+                        {service.name}
+                      </h3>
+                      <p className="text-neutral-600 text-sm mb-4">{service.description}</p>
+                    </div>
+                    <div className="border-t border-neutral-200 pt-4 mt-auto">
+                      <div className="flex items-baseline justify-between gap-2 mb-3">
+                        <div className="flex items-baseline gap-1">
+                          <span className="text-2xl font-bold text-primary-600">
+                            {formatCurrency(service.price)}
+                          </span>
+                          <span className="text-neutral-600 text-sm">/{service.unit}</span>
+                        </div>
+                      </div>
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        fullWidth
+                        leftIcon={<MessageCircle className="w-4 h-4" />}
+                        onClick={(e: React.MouseEvent) => {
+                          e.stopPropagation();
+                          const message = `Olá! Tenho interesse no serviço *${service.name}* (${formatCurrency(service.price)}/${service.unit}).\n\n${service.description}\n\nPoderia me passar mais informações?`;
+                          window.open(createWhatsAppLink(message), '_blank');
+                        }}
+                      >
+                        Solicitar
+                      </Button>
                     </div>
                   </Card>
                 </motion.div>
@@ -548,7 +577,7 @@ export const Planos = () => {
         </div>
 
         {/* Final CTA */}
-        <section className="py-20 bg-gradient-to-br from-primary-600 to-secondary-600 ">
+        <section className="py-18 bg-linear-to-br from-primary-600 to-secondary-600 ">
           <div className="container-custom text-center">
             <motion.div
               initial={{ opacity: 0, y: 30 }}
