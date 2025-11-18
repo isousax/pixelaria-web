@@ -38,6 +38,7 @@ export const Home = () => {
     "subscription"
   );
   const [faqOpen, setFaqOpen] = useState<number | null>(null);
+  const [isHeroVideoReady, setIsHeroVideoReady] = useState(false);
   const heroRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
     target: heroRef,
@@ -65,7 +66,7 @@ export const Home = () => {
           className="relative min-h-screen flex py-10 lg:py-26 overflow-hidden"
         >
           {/* Animated Background */}
-          <div className="absolute inset-0 bg-linear-to-br from-primary-50 via-white to-secondary-50 opacity-60" />
+          <div className="absolute inset-0 bg-linear-to-br from-primary-50" />
           <motion.div
             className="absolute inset-0 opacity-30"
             style={{ y: heroY }}
@@ -158,31 +159,46 @@ export const Home = () => {
                 transition={{ duration: 0.8, delay: 0.3 }}
                 className="relative"
               >
-                <div className="relative rounded-3xl overflow-hidden shadow-hover">
-                  <img
-                    src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&h=600&fit=crop"
-                    alt="Desenvolvimento web profissional"
-                    className="w-full h-auto"
-                  />
+                <div className="relative overflow-hidden">
+                  <div className="relative aspect-4/3 sm:aspect-video bg-neutral-900 overflow-hidden rounded-[inherit]">
+                    <video
+                      className="absolute inset-0 block h-full w-full object-cover rounded-[inherit] scale-[1.02]"
+                      autoPlay
+                      muted
+                      loop
+                      playsInline
+                      poster="/img/mascote_pixelaria_rmt.png"
+                      onLoadedData={() => setIsHeroVideoReady(true)}
+                    >
+                      <source
+                        src="/video/pixelaria_video.mp4"
+                        type="video/mp4"
+                      />
+                      Seu navegador não suporta vídeo HTML5.
+                    </video>
+                    {!isHeroVideoReady && (
+                      <div className="absolute inset-0 z-10 flex items-center justify-center bg-neutral-900">
+                        <span className="text-white/70 text-sm font-medium tracking-wide">
+                          Carregando animação…
+                        </span>
+                      </div>
+                    )}
+                  </div>
+
                   {/* Floating Card */}
                   <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 1, duration: 0.5 }}
-                    className="absolute bottom-6 left-6 right-6 bg-white/95 backdrop-blur-lg rounded-2xl p-4 shadow-soft-xl"
+                    className="absolute bottom-6 left-6 right-6 bg-white/95 backdrop-blur-lg rounded-2xl p-2 shadow-soft-xl"
                   >
-                    <div className="flex items-center justify-between">
-                      <div>
-                        <p className="text-sm text-neutral-600 mb-1">
-                          Tempo médio de entrega
-                        </p>
-                        <p className="text-2xl font-bold text-primary-600">
-                          10-15 dias
+                    <div className="flex items-start justify-between">
+                      <div className="flex-1 text-sm text-neutral-600">
+                        <p className="font-semibold text-neutral-900">
+                          Seu site, do seu jeito!
                         </p>
                       </div>
-                      <div className="w-12 h-12 bg-primary-100 rounded-xl flex items-center justify-center">
-                        <Zap className="w-6 h-6 text-primary-600" />
-                      </div>
+                      <Zap className="w-6 h-6 text-primary-600" />
                     </div>
                   </motion.div>
                 </div>
