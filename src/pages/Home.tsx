@@ -177,8 +177,8 @@ export const Home = () => {
                       Seu navegador não suporta vídeo HTML5.
                     </video>
                     {!isHeroVideoReady && (
-                      <div className="absolute inset-0 z-10 flex items-center justify-center bg-neutral-900">
-                        <span className="text-white/70 text-sm font-medium tracking-wide">
+                      <div className="absolute inset-0 z-10 flex items-center justify-center bg-primary-50">
+                        <span className="text-gray-600 text-sm font-medium tracking-wide">
                           Carregando animação…
                         </span>
                       </div>
