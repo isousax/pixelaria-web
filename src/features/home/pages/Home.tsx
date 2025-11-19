@@ -63,7 +63,7 @@ export const Home = () => {
         {/* Hero Section - Enhanced */}
         <section
           ref={heroRef}
-          className="relative min-h-screen flex py-10 lg:py-26 overflow-hidden"
+          className="relative min-h-screen flex py-10 lg:py-12 overflow-hidden"
         >
           {/* Animated Background */}
           <div className="absolute inset-0 bg-linear-to-br from-primary-50" />
@@ -136,7 +136,7 @@ export const Home = () => {
                 </div>
 
                 {/* Trust Indicators */}
-                <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 text-sm text-neutral-600">
+                <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 text-xs sm:text-sm text-neutral-600">
                   <div className="flex items-center gap-2">
                     <CheckCircle2 className="w-5 h-5 text-green-600" />
                     <span>Sem fidelidade</span>
@@ -237,7 +237,7 @@ export const Home = () => {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 1.5 }}
-              className="absolute bottom-1 left-1/2 -translate-x-1/2 hidden lg:block"
+              className="absolute bottom-8 left-1/2 -translate-x-1/2 hidden lg:block"
             >
               <motion.div
                 animate={{ y: [0, 10, 0] }}
