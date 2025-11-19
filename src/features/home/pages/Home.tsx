@@ -170,7 +170,7 @@ export const Home = () => {
                       onLoadedData={() => setIsHeroVideoReady(true)}
                     >
                       <source
-                        src="src/assets/videos/pixelaria_video.mp4"
+                        src="assets/videos/pixelaria_video.mp4"
                         type="video/mp4"
                       />
                       Seu navegador não suporta vídeo HTML5.
@@ -178,7 +178,7 @@ export const Home = () => {
                     {!isHeroVideoReady && (
                       <div className="absolute inset-0 flex items-center justify-center bg-primary-50 rounded-[inherit]">
                         <img
-                          src="src/assets/mascote/mascote_pixelaria_rmt.png"
+                          src="assets/mascote/mascote_pixelaria_rmt.png"
                           alt="Mascote Pixelaria"
                           className="w-full h-full object-contain"
                         />
