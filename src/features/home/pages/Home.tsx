@@ -45,7 +45,7 @@ export const Home = () => {
     offset: ["start start", "end start"],
   });
   const heroY = useTransform(scrollYProgress, [0, 1], ["0%", "50%"]);
-  const heroOpacity = useTransform(scrollYProgress, [0, 1], [1, 0]);
+  const heroOpacity = useTransform(scrollYProgress, [0, 0.3], [1, 0]);
 
   const selectedPlan = pricingPlans.find((p) => p.type === pricingType);
 
@@ -237,6 +237,7 @@ export const Home = () => {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 1.5 }}
+              style={{ opacity: heroOpacity }}
               className="absolute bottom-8 left-1/2 -translate-x-1/2 hidden lg:block"
             >
               <motion.div
