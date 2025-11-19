@@ -1,18 +1,18 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { Layout } from './components/layout/Layout';
-import { ToastContainer } from './components/ui/Toast';
-import { Home } from './pages/Home';
-import { Servicos } from './pages/Servicos';
-import { Planos } from './pages/Planos';
-import { Projetos } from './pages/Projetos';
-import { Processo } from './pages/Processo';
-import { Onboarding } from './pages/Onboarding';
-import { Dashboard } from './pages/Dashboard';
-import { Blog } from './pages/Blog';
-import { BlogPost } from './pages/BlogPost';
-import { Contato } from './pages/Contato';
-import { Terms } from './pages/Terms';
-import { Privacy } from './pages/Privacy';
+import { Layout } from './shared/components/layout/Layout';
+import { ToastContainer } from './shared/components/ui/Toast';
+import { Home } from './features/home/pages/Home';
+import { Servicos } from './features/services/pages/Servicos';
+import { Planos } from './features/pricing/pages/Planos';
+import { Projetos } from './features/projects/pages/Projetos';
+import { Processo } from './features/processos/pages/Processo';
+import { Onboarding } from './features/onboarding/pages/Onboarding';
+import { Dashboard } from './features/dashboard/pages/Dashboard';
+import { Blog } from './features/blog/pages/Blog';
+import { BlogPost } from './features/blog/pages/BlogPost';
+import { Contato } from './features/contato/pages/Contato';
+import { Terms } from './features/legal/pages/Terms';
+import { Privacy } from './features/legal/pages/Privacy';
 
 function App() {
   return (
