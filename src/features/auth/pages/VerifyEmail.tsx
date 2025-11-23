@@ -23,7 +23,7 @@ export const VerifyEmail = () => {
     return (
       <>
         <SEO title="Token Inválido - Pixelaria" description="O link de verificação de email é inválido" />
-        <div className="min-h-screen bg-background-light flex items-center justify-center py-12 px-4">
+        <div className="min-h-screen bg-background-light flex justify-center py-18 sm:py-30 px-4">
           <Card padding="lg" className="max-w-md text-center">
             <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
               <svg className="w-8 h-8 text-red-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -47,7 +47,7 @@ export const VerifyEmail = () => {
     return (
       <>
         <SEO title="Verificando Email - Pixelaria" description="Estamos verificando seu endereço de email" />
-        <div className="min-h-screen bg-background-light flex items-center justify-center py-12 px-4">
+        <div className="min-h-screen bg-background-light flex justify-center py-18 sm:py-30 px-4">
           <Card padding="lg" className="max-w-md text-center">
             <div className="w-16 h-16 border-4 border-primary-200 border-t-primary-600 rounded-full animate-spin mx-auto mb-4" />
             <h2 className="text-2xl font-bold text-neutral-900 mb-2">Verificando...</h2>
@@ -127,7 +127,7 @@ export const VerifyEmail = () => {
     return (
       <>
         <SEO title="Email Verificado - Pixelaria" description="Sua conta foi verificada com sucesso" />
-        <div className="min-h-screen bg-background-light flex items-center justify-center py-12 px-4">
+        <div className="min-h-screen bg-background-light flex justify-center py-18 sm:py-30 px-4">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
