@@ -74,6 +74,7 @@ function App() {
               <Route path="/forgot-password" element={<ForgotPassword />} />
               <Route path="/reset-password" element={<ResetPassword />} />
               <Route path="/verify-email" element={<VerifyEmail />} />
+              <Route path="/confirm-email" element={<VerifyEmail />} /> {/* Alias for verify-email */}
               <Route path="/resend-verification" element={<ResendVerification />} />
 
               {/* Protected Routes */}

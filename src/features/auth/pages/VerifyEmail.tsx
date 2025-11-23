@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { Link, useSearchParams } from 'react-router-dom';
 import { Card } from '../../../shared/components/ui/Card';
@@ -10,9 +10,11 @@ export const VerifyEmail = () => {
   const [searchParams] = useSearchParams();
   const token = searchParams.get('token');
   const { confirmVerification, isLoading, error, success } = useEmailVerification();
+  const hasVerified = useRef(false);
 
   useEffect(() => {
-    if (token) {
+    if (token && !hasVerified.current) {
+      hasVerified.current = true;
       confirmVerification({ token });
     }
   }, [token, confirmVerification]);

@@ -2,7 +2,7 @@
 // useEmailVerification Hook - For email verification flow
 // ============================================================================
 
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 import { emailVerificationApi } from '../../../shared/services/authApi';
 import type { ResendVerificationRequest, ConfirmVerificationRequest } from '../../../shared/types/auth';
 
@@ -23,7 +23,7 @@ export const useEmailVerification = (): UseEmailVerificationReturn => {
   const [success, setSuccess] = useState(false);
   const [message, setMessage] = useState<string | null>(null);
 
-  const resendVerification = async (data: ResendVerificationRequest) => {
+  const resendVerification = useCallback(async (data: ResendVerificationRequest) => {
     setIsLoading(true);
     setError(null);
     setSuccess(false);
@@ -40,9 +40,9 @@ export const useEmailVerification = (): UseEmailVerificationReturn => {
     } finally {
       setIsLoading(false);
     }
-  };
+  }, []);
 
-  const confirmVerification = async (data: ConfirmVerificationRequest) => {
+  const confirmVerification = useCallback(async (data: ConfirmVerificationRequest) => {
     setIsLoading(true);
     setError(null);
     setSuccess(false);
@@ -59,7 +59,7 @@ export const useEmailVerification = (): UseEmailVerificationReturn => {
     } finally {
       setIsLoading(false);
     }
-  };
+  }, []);
 
   const clearError = () => setError(null);
   const clearSuccess = () => setSuccess(false);
