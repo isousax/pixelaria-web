@@ -121,11 +121,8 @@ export const ResendVerification = () => {
 
             <form onSubmit={handleSubmit} className="space-y-6">
               <div>
-                <label htmlFor="email" className="block text-sm font-medium text-neutral-700 mb-2">
-                  Email
-                </label>
                 <div className="relative">
-                  <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-neutral-400" />
+                  <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 z-1 text-neutral-400" />
                   <Input
                     id="email"
                     type="email"
@@ -135,7 +132,7 @@ export const ResendVerification = () => {
                       setValidationError('');
                     }}
                     className="pl-10"
-                    placeholder="seu@email.com"
+                    placeholder="E-mail"
                     disabled={isLoading || cooldown > 0}
                   />
                 </div>
@@ -166,7 +163,7 @@ export const ResendVerification = () => {
 
               <p className="text-center text-sm text-neutral-600">
                 Já verificou seu email?{' '}
-                <Link to="/login" className="text-primary-600 hover:text-primary-700 font-medium">
+                <Link to="/login" className="text-primary-600 hover:text-primary-700 font-medium underline">
                   Fazer login
                 </Link>
               </p>
