@@ -17,29 +17,43 @@ const REFRESH_TOKEN_KEY = 'pixelaria_refresh_token';
 
 export const tokenManager = {
   getAccessToken: (): string | null => {
-    return localStorage.getItem(TOKEN_KEY);
+    return localStorage.getItem(TOKEN_KEY) || sessionStorage.getItem(TOKEN_KEY);
   },
 
-  setAccessToken: (token: string): void => {
-    localStorage.setItem(TOKEN_KEY, token);
+  setAccessToken: (token: string, remember: boolean = true): void => {
+    if (remember) {
+      localStorage.setItem(TOKEN_KEY, token);
+      sessionStorage.removeItem(TOKEN_KEY);
+    } else {
+      sessionStorage.setItem(TOKEN_KEY, token);
+      localStorage.removeItem(TOKEN_KEY);
+    }
   },
 
   getRefreshToken: (): string | null => {
-    return localStorage.getItem(REFRESH_TOKEN_KEY);
+    return localStorage.getItem(REFRESH_TOKEN_KEY) || sessionStorage.getItem(REFRESH_TOKEN_KEY);
   },
 
-  setRefreshToken: (token: string): void => {
-    localStorage.setItem(REFRESH_TOKEN_KEY, token);
+  setRefreshToken: (token: string, remember: boolean = true): void => {
+    if (remember) {
+      localStorage.setItem(REFRESH_TOKEN_KEY, token);
+      sessionStorage.removeItem(REFRESH_TOKEN_KEY);
+    } else {
+      sessionStorage.setItem(REFRESH_TOKEN_KEY, token);
+      localStorage.removeItem(REFRESH_TOKEN_KEY);
+    }
   },
 
   clearTokens: (): void => {
     localStorage.removeItem(TOKEN_KEY);
     localStorage.removeItem(REFRESH_TOKEN_KEY);
+    sessionStorage.removeItem(TOKEN_KEY);
+    sessionStorage.removeItem(REFRESH_TOKEN_KEY);
   },
 
-  setTokens: (accessToken: string, refreshToken: string): void => {
-    tokenManager.setAccessToken(accessToken);
-    tokenManager.setRefreshToken(refreshToken);
+  setTokens: (accessToken: string, refreshToken: string, remember: boolean = true): void => {
+    tokenManager.setAccessToken(accessToken, remember);
+    tokenManager.setRefreshToken(refreshToken, remember);
   },
 };
 

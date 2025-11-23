@@ -115,8 +115,8 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     try {
       const response: LoginResponse = await authApi.login(data);
 
-      // Store tokens
-      tokenManager.setTokens(response.access_token, response.refresh_token);
+      // Store tokens (remember determines localStorage vs sessionStorage)
+      tokenManager.setTokens(response.access_token, response.refresh_token, data.remember ?? false);
 
       // Fetch full user data from /auth/me
       const userData = await fetchUserData();
@@ -240,8 +240,9 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     try {
       const response = await authApi.refresh({ refresh_token: refreshToken });
 
-      // Store new tokens
-      tokenManager.setTokens(response.access_token, response.refresh_token);
+      // Store new tokens (preserve storage type - if token was in localStorage, keep it there)
+      const wasInLocalStorage = !!localStorage.getItem('pixelaria_refresh_token');
+      tokenManager.setTokens(response.access_token, response.refresh_token, wasInLocalStorage);
 
       // Fetch full user data from /auth/me
       const userData = await fetchUserData();
