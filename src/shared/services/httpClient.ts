@@ -170,9 +170,18 @@ httpClient.interceptors.response.use(
     // Handle 403 Forbidden - Email not confirmed
     if (error.response?.status === 403) {
       const errorData = error.response.data as AuthErrorResponse;
-      if (errorData.error?.includes('confirme seu e-mail')) {
+      const errorMessage = errorData.error?.toLowerCase() || '';
+      const isEmailNotVerified = errorMessage.includes('e-mail não verificado') || 
+                                 errorMessage.includes('email não verificado') ||
+                                 errorMessage.includes('confirme seu e-mail') ||
+                                 errorMessage.includes('verifique sua caixa de entrada');
+      
+      if (isEmailNotVerified) {
         window.dispatchEvent(new CustomEvent('auth:email-not-confirmed', { 
-          detail: { email: errorData.field } 
+          detail: { 
+            email: errorData.field,
+            message: errorData.error 
+          } 
         }));
       }
     }

@@ -119,16 +119,13 @@ export const ResetPassword = () => {
   return (
     <>
       <SEO title="Redefinir Senha - Pixelaria" description="Crie uma nova senha para sua conta" />
-      <div className="min-h-screen bg-background-light flex items-center justify-center py-12 px-4">
+      <div className="min-h-screen bg-background-light flex justify-center py-18 sm:py-30 px-4">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           className="w-full max-w-md"
         >
           <div className="text-center mb-8">
-            <div className="inline-flex items-center justify-center w-16 h-16 bg-primary-100 rounded-2xl mb-4">
-              <Lock className="w-8 h-8 text-primary-600" />
-            </div>
             <h1 className="text-3xl font-black text-neutral-900 mb-2">
               Redefinir Senha
             </h1>
@@ -140,11 +137,8 @@ export const ResetPassword = () => {
           <Card padding="lg">
             <form onSubmit={handleSubmit} className="space-y-6">
               <div>
-                <label htmlFor="password" className="block text-sm font-medium text-neutral-700 mb-2">
-                  Nova Senha
-                </label>
                 <div className="relative">
-                  <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-neutral-400" />
+                  <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 z-1 text-neutral-400" />
                   <Input
                     id="password"
                     type={showPassword ? 'text' : 'password'}
@@ -154,7 +148,7 @@ export const ResetPassword = () => {
                       setValidationErrors((prev) => ({ ...prev, password: '' }));
                     }}
                     className="pl-10 pr-10"
-                    placeholder="••••••••"
+                    placeholder="Nova Senha"
                     disabled={isLoading}
                   />
                   <button
@@ -174,11 +168,8 @@ export const ResetPassword = () => {
               </div>
 
               <div>
-                <label htmlFor="confirmPassword" className="block text-sm font-medium text-neutral-700 mb-2">
-                  Confirmar Nova Senha
-                </label>
                 <div className="relative">
-                  <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-neutral-400" />
+                  <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 z-1 text-neutral-400" />
                   <Input
                     id="confirmPassword"
                     type={showConfirmPassword ? 'text' : 'password'}
@@ -188,7 +179,7 @@ export const ResetPassword = () => {
                       setValidationErrors((prev) => ({ ...prev, confirmPassword: '' }));
                     }}
                     className="pl-10 pr-10"
-                    placeholder="••••••••"
+                    placeholder="Confirmar Senha"
                     disabled={isLoading}
                   />
                   <button

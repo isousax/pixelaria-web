@@ -125,15 +125,29 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       success('Login realizado com sucesso!');
       navigate('/dashboard');
     } catch (error) {
-      const errorMessage = error instanceof Error ? error.message : 'Erro ao fazer login';
+      // Check if it's a 403 email not confirmed error (handled by event listener)
+      const is403Error = error instanceof Error && 
+                         (error.message.includes('E-mail não verificado') || 
+                          error.message.includes('confirme seu e-mail'));
       
-      setState((prev) => ({
-        ...prev,
-        isLoading: false,
-        error: errorMessage,
-      }));
-
-      showError(errorMessage);
+      if (!is403Error) {
+        const errorMessage = error instanceof Error ? error.message : 'Erro ao fazer login';
+        
+        setState((prev) => ({
+          ...prev,
+          isLoading: false,
+          error: errorMessage,
+        }));
+        
+        showError(errorMessage);
+      } else {
+        // For 403 errors, just reset loading state (error is handled by event)
+        setState((prev) => ({
+          ...prev,
+          isLoading: false,
+        }));
+      }
+      
       throw error;
     }
   }, [navigate, success, showError]);
@@ -324,9 +338,15 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     };
 
     const handleEmailNotConfirmed = (event: Event) => {
-      const customEvent = event as CustomEvent;
-      showError('Por favor, confirme seu e-mail antes de fazer login.');
-      navigate(`/resend-verification?email=${customEvent.detail.email}`);
+      const customEvent = event as CustomEvent<{ email?: string; message?: string }>;
+      const message = customEvent.detail.message || 'Por favor, confirme seu e-mail antes de fazer login.';
+      showError(message);
+      
+      if (customEvent.detail.email) {
+        navigate(`/resend-verification?email=${customEvent.detail.email}`);
+      } else {
+        navigate('/resend-verification');
+      }
     };
 
     const handleRateLimit = (event: Event) => {
