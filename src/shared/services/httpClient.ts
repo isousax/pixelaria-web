@@ -153,10 +153,17 @@ httpClient.interceptors.response.use(
         }
       }
 
-      // If not expired or refresh failed, logout
-      if (authError.reason !== 'expired') {
-        tokenManager.clearTokens();
-        window.dispatchEvent(new CustomEvent('auth:logout'));
+      // If not expired or refresh failed, only logout if user is authenticated
+      // Don't logout on public endpoints (email verification, password reset, etc)
+      const publicEndpoints = ['/auth/confirm-email', '/auth/reset-password', '/auth/verify-email'];
+      const isPublicEndpoint = publicEndpoints.some(endpoint => originalRequest?.url?.includes(endpoint));
+      
+      if (authError.reason !== 'expired' && !isPublicEndpoint) {
+        const hasTokens = tokenManager.getAccessToken() || tokenManager.getRefreshToken();
+        if (hasTokens) {
+          tokenManager.clearTokens();
+          window.dispatchEvent(new CustomEvent('auth:logout'));
+        }
       }
     }
 
