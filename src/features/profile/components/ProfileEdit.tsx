@@ -4,7 +4,7 @@
 
 import { useState, useEffect } from 'react';
 import type { FormEvent } from 'react';
-import { User, Phone, Calendar, Tag } from 'lucide-react';
+import { User, Phone, Tag, Cake } from 'lucide-react';
 import { Button } from '../../../shared/components/ui/Button';
 import { Input } from '../../../shared/components/ui/Input';
 import { Card } from '../../../shared/components/ui/Card';
@@ -188,11 +188,8 @@ export const ProfileEdit = () => {
         </div>
 
         <div>
-          <label htmlFor="phone" className="block text-sm font-medium text-neutral-700 mb-2">
-            Telefone
-          </label>
           <div className="relative">
-            <Phone className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-neutral-400" />
+            <Phone className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 z-1 text-neutral-400" />
             <Input
               id="phone"
               type="tel"
@@ -210,11 +207,8 @@ export const ProfileEdit = () => {
 
         {!hasBirthDate && (
           <div>
-            <label htmlFor="birth_date" className="block text-sm font-medium text-neutral-700 mb-2">
-              Data de Nascimento
-            </label>
             <div className="relative">
-              <Calendar className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-neutral-400" />
+              <Cake className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 z-1 text-neutral-400" />
               <Input
                 id="birth_date"
                 type="date"
@@ -222,6 +216,7 @@ export const ProfileEdit = () => {
                 onChange={(e) => handleChange('birth_date', e.target.value)}
                 className="pl-10"
                 disabled={isLoading}
+                placeholder="Data de Nascimento"
               />
             </div>
             {validationErrors.birth_date && (
