@@ -111,7 +111,6 @@ export const ProfileEdit = () => {
     <Card padding="lg">
       <div className="mb-6">
         <h2 className="text-2xl font-bold text-neutral-900 mb-2">Editar Perfil</h2>
-        <p className="text-neutral-600">Atualize suas informações pessoais</p>
       </div>
 
       {/* Current User Info */}
@@ -153,34 +152,15 @@ export const ProfileEdit = () => {
 
       <form onSubmit={handleSubmit} className="space-y-6">
         <div>
-          <label htmlFor="email" className="block text-sm font-medium text-neutral-700 mb-2">
-            Email
-          </label>
-          <Input
-            id="email"
-            type="email"
-            value={user?.email || ''}
-            disabled
-            className="bg-neutral-50 cursor-not-allowed"
-          />
-          <p className="mt-1 text-xs text-neutral-500">
-            O email não pode ser alterado
-          </p>
-        </div>
-
-        <div>
-          <label htmlFor="full_name" className="block text-sm font-medium text-neutral-700 mb-2">
-            Nome Completo *
-          </label>
           <div className="relative">
-            <User className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-neutral-400" />
+            <User className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 z-1 text-neutral-400" />
             <Input
               id="full_name"
               type="text"
               value={formData.full_name}
               onChange={(e) => handleChange('full_name', e.target.value)}
               className="pl-10"
-              placeholder="Seu nome completo"
+              placeholder="Nome Completo"
               disabled={isLoading}
             />
           </div>
@@ -190,11 +170,8 @@ export const ProfileEdit = () => {
         </div>
 
         <div>
-          <label htmlFor="display_name" className="block text-sm font-medium text-neutral-700 mb-2">
-            Nome de Exibição
-          </label>
           <div className="relative">
-            <Tag className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-neutral-400" />
+            <Tag className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 z-1 text-neutral-400" />
             <Input
               id="display_name"
               type="text"
@@ -231,34 +208,30 @@ export const ProfileEdit = () => {
           )}
         </div>
 
-        <div>
-          <label htmlFor="birth_date" className="block text-sm font-medium text-neutral-700 mb-2">
-            Data de Nascimento {hasBirthDate && <span className="text-xs text-neutral-500">(não pode ser alterada)</span>}
-          </label>
-          <div className="relative">
-            <Calendar className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-neutral-400" />
-            <Input
-              id="birth_date"
-              type="date"
-              value={formData.birth_date}
-              onChange={(e) => handleChange('birth_date', e.target.value)}
-              className={`pl-10 ${hasBirthDate ? 'bg-neutral-50 cursor-not-allowed' : ''}`}
-              disabled={isLoading || hasBirthDate}
-            />
-          </div>
-          {validationErrors.birth_date && (
-            <p className="mt-1 text-sm text-red-600">{validationErrors.birth_date}</p>
-          )}
-          {hasBirthDate ? (
+        {!hasBirthDate && (
+          <div>
+            <label htmlFor="birth_date" className="block text-sm font-medium text-neutral-700 mb-2">
+              Data de Nascimento
+            </label>
+            <div className="relative">
+              <Calendar className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-neutral-400" />
+              <Input
+                id="birth_date"
+                type="date"
+                value={formData.birth_date}
+                onChange={(e) => handleChange('birth_date', e.target.value)}
+                className="pl-10"
+                disabled={isLoading}
+              />
+            </div>
+            {validationErrors.birth_date && (
+              <p className="mt-1 text-sm text-red-600">{validationErrors.birth_date}</p>
+            )}
             <p className="mt-1 text-xs text-amber-600">
-              ⚠️ A data de nascimento não pode ser alterada após ser definida por questões de segurança
-            </p>
-          ) : (
-            <p className="mt-1 text-xs text-neutral-500">
               ⚠️ Atenção: após salvar, a data de nascimento não poderá mais ser alterada
             </p>
-          )}
-        </div>
+          </div>
+        )}
 
         {error && (
           <div className="p-3 bg-red-50 border border-red-200 rounded-lg">

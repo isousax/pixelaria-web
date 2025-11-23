@@ -5,7 +5,7 @@
 import React, { createContext, useState, useEffect, useCallback } from 'react';
 import type { ReactNode } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { authApi } from '../services/authApi';
+import { authApi, tokenApi } from '../services/authApi';
 import { tokenManager } from '../services/httpClient';
 import { useToast } from '../hooks/useToast';
 import type {
@@ -58,10 +58,11 @@ const setUserFromToken = (token: string): User | null => {
   
   if (!payload) return null;
 
+  // Return minimal user from token - full data will be fetched via /auth/me
   const user: User = {
     id: payload.sub,
     email: payload.email,
-    full_name: '', // Will be fetched from profile endpoint
+    full_name: '',
     phone: '',
     role: payload.role,
     email_confirmed: true,
@@ -70,6 +71,17 @@ const setUserFromToken = (token: string): User | null => {
   };
 
   return user;
+};
+
+// Fetch full user data from /auth/me endpoint
+const fetchUserData = async (): Promise<User | null> => {
+  try {
+    const userData = await tokenApi.getProfile();
+    return userData;
+  } catch (error) {
+    console.error('Error fetching user data:', error);
+    return null;
+  }
 };
 
 // ============================================================================
@@ -106,8 +118,9 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       // Store tokens
       tokenManager.setTokens(response.access_token, response.refresh_token);
 
-      // Set user from token
-      const user = setUserFromToken(response.access_token);
+      // Fetch full user data from /auth/me
+      const userData = await fetchUserData();
+      const user = userData || setUserFromToken(response.access_token);
 
       setState({
         user,
@@ -230,8 +243,9 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       // Store new tokens
       tokenManager.setTokens(response.access_token, response.refresh_token);
 
-      // Set user from token
-      const user = setUserFromToken(response.access_token);
+      // Fetch full user data from /auth/me
+      const userData = await fetchUserData();
+      const user = userData || setUserFromToken(response.access_token);
 
       setState((prev) => ({
         ...prev,
@@ -280,8 +294,9 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         error: null,
       });
     } else {
-      // Token is valid
-      const user = setUserFromToken(accessToken);
+      // Token is valid - fetch full user data
+      const userData = await fetchUserData();
+      const user = userData || setUserFromToken(accessToken);
 
       setState({
         user,

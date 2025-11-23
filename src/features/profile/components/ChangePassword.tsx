@@ -93,23 +93,19 @@ export const ChangePassword = () => {
     <Card padding="lg">
       <div className="mb-6">
         <h2 className="text-2xl font-bold text-neutral-900 mb-2">Alterar Senha</h2>
-        <p className="text-neutral-600">Atualize sua senha de acesso</p>
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-6">
         <div>
-          <label htmlFor="current_password" className="block text-sm font-medium text-neutral-700 mb-2">
-            Senha Atual *
-          </label>
           <div className="relative">
-            <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-neutral-400" />
+            <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 z-1 text-neutral-400" />
             <Input
               id="current_password"
               type={showPasswords.current ? 'text' : 'password'}
               value={formData.current_password}
               onChange={(e) => handleChange('current_password', e.target.value)}
               className="pl-10 pr-10"
-              placeholder="••••••••"
+              placeholder="Senha Atual"
               disabled={isLoading}
             />
             <button
@@ -126,18 +122,15 @@ export const ChangePassword = () => {
         </div>
 
         <div>
-          <label htmlFor="new_password" className="block text-sm font-medium text-neutral-700 mb-2">
-            Nova Senha *
-          </label>
           <div className="relative">
-            <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-neutral-400" />
+            <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 z-1 text-neutral-400" />
             <Input
               id="new_password"
               type={showPasswords.new ? 'text' : 'password'}
               value={formData.new_password}
               onChange={(e) => handleChange('new_password', e.target.value)}
               className="pl-10 pr-10"
-              placeholder="••••••••"
+              placeholder="Nova Senha"
               disabled={isLoading}
             />
             <button
@@ -157,18 +150,15 @@ export const ChangePassword = () => {
         </div>
 
         <div>
-          <label htmlFor="confirm_password" className="block text-sm font-medium text-neutral-700 mb-2">
-            Confirmar Nova Senha *
-          </label>
           <div className="relative">
-            <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-neutral-400" />
+            <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 z-1 text-neutral-400" />
             <Input
               id="confirm_password"
               type={showPasswords.confirm ? 'text' : 'password'}
               value={formData.confirm_password}
               onChange={(e) => handleChange('confirm_password', e.target.value)}
               className="pl-10 pr-10"
-              placeholder="••••••••"
+              placeholder="Confirmar Nova Senha"
               disabled={isLoading}
             />
             <button

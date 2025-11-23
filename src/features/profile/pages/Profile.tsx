@@ -36,9 +36,6 @@ export const Profile = () => {
             <h1 className="text-4xl font-black text-neutral-900 mb-3">
               Meu Perfil
             </h1>
-            <p className="text-lg text-neutral-600">
-              Gerencie suas informações e configurações de segurança
-            </p>
           </motion.div>
 
           {/* Tabs */}
