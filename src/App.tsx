@@ -31,8 +31,6 @@ import { Dashboard } from './features/dashboard/pages/Dashboard';
 import { Profile } from './features/profile/pages/Profile';
 
 function App() {
-  console.log('[App] Rendering...');
-  
   return (
     <BrowserRouter>
       <AuthProvider>

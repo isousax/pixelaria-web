@@ -12,7 +12,7 @@ export const Layout = ({ children }: LayoutProps) => {
   const location = useLocation();
   
   // Páginas onde o footer não deve aparecer (apenas login, register e resend verification)
-  const hideFooterPaths = ['/login', '/register', '/resend-verification', '/verify-email', '/reset-password', '/forgot-password'];
+  const hideFooterPaths = ['/login', '/register', '/resend-verification', '/verify-email', '/reset-password', '/forgot-password', '/confirm-email'];
   const shouldHideFooter = hideFooterPaths.includes(location.pathname);
   
   return (

@@ -1,14 +1,35 @@
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Code2, Menu, X } from 'lucide-react';
+import { Code2, Menu, X, User, LogOut, Settings } from 'lucide-react';
 import { useState, useEffect } from 'react';
+import { useAuth } from '../../hooks/useAuth';
 
 export const Header = () => {
-  console.log('[Header] Rendering...');
-  
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const [userMenuOpen, setUserMenuOpen] = useState(false);
   const location = useLocation();
+  const navigate = useNavigate();
+  const { isAuthenticated, user, logout } = useAuth();
+
+  const handleLogout = async () => {
+    await logout();
+    setUserMenuOpen(false);
+    navigate('/');
+  };
+
+  // Close user menu when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      const target = event.target as HTMLElement;
+      if (userMenuOpen && !target.closest('[data-user-menu]')) {
+        setUserMenuOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, [userMenuOpen]);
 
   const navLinks = [
     { to: '/', label: 'Início' },
@@ -112,12 +133,64 @@ export const Header = () => {
                   />
                 </Link>
               ))}
-              <Link
-                to="/dashboard"
-                className="ml-4 px-6 py-2.5 bg-linear-to-r from-primary-600 to-primary-700 hover:from-primary-700 hover:to-primary-800 rounded-lg font-semibold transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105 active:scale-95 bg-gray-100"
-              >
-                Entrar
-              </Link>
+              
+              {/* User Menu / Login Button */}
+              {isAuthenticated ? (
+                <div className="relative ml-4" data-user-menu>
+                  <button
+                    onClick={() => setUserMenuOpen(!userMenuOpen)}
+                    className="flex items-center gap-2 px-4 py-2.5 rounded-lg hover:bg-neutral-100 transition-all duration-300"
+                  >
+                    <div className="w-8 h-8 bg-linear-to-br from-primary-600 to-primary-700 rounded-full flex items-center justify-center">
+                      <User className="w-4 h-4 text-white" />
+                    </div>
+                    <span className="font-medium text-neutral-900">{user?.full_name?.split(' ')[0] || 'Usuário'}</span>
+                  </button>
+                  
+                  <AnimatePresence>
+                    {userMenuOpen && (
+                      <motion.div
+                        initial={{ opacity: 0, y: -10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -10 }}
+                        className="absolute right-0 mt-2 w-48 bg-white rounded-xl shadow-xl border border-neutral-200 py-2 z-50"
+                      >
+                        <Link
+                          to="/profile"
+                          onClick={() => setUserMenuOpen(false)}
+                          className="flex items-center gap-2 px-4 py-2.5 hover:bg-neutral-50 transition-colors text-neutral-700"
+                        >
+                          <Settings className="w-4 h-4" />
+                          <span>Perfil</span>
+                        </Link>
+                        <Link
+                          to="/dashboard"
+                          onClick={() => setUserMenuOpen(false)}
+                          className="flex items-center gap-2 px-4 py-2.5 hover:bg-neutral-50 transition-colors text-neutral-700"
+                        >
+                          <Code2 className="w-4 h-4" />
+                          <span>Dashboard</span>
+                        </Link>
+                        <hr className="my-2 border-neutral-200" />
+                        <button
+                          onClick={handleLogout}
+                          className="flex items-center gap-2 px-4 py-2.5 hover:bg-red-50 transition-colors w-full text-left text-red-600"
+                        >
+                          <LogOut className="w-4 h-4" />
+                          <span>Sair</span>
+                        </button>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </div>
+              ) : (
+                <Link
+                  to="/login"
+                  className="ml-4 px-6 py-2.5 bg-linear-to-r from-primary-600 to-primary-700 hover:from-primary-700 hover:to-primary-800 rounded-lg font-semibold transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105 active:scale-95 bg-gray-100"
+                >
+                  Entrar
+                </Link>
+              )}
             </div>
 
             {/* Mobile Menu Button */}

@@ -1,7 +1,3 @@
-// ============================================================================
-// ResendVerification Page
-// ============================================================================
-
 import { useState, useEffect } from 'react';
 import type { FormEvent } from 'react';
 import { motion } from 'framer-motion';

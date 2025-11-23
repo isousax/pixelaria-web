@@ -81,8 +81,6 @@ interface AuthProviderProps {
 }
 
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
-  console.log('[AuthProvider] Rendering...');
-  
   const [state, setState] = useState<AuthState>({
     user: null,
     accessToken: null,
@@ -94,8 +92,6 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
   const navigate = useNavigate();
   const { success, error: showError, info } = useToast();
-  
-  console.log('[AuthProvider] Current state:', { isLoading: state.isLoading, isAuthenticated: state.isAuthenticated });
 
   // ============================================================================
   // Login
@@ -256,14 +252,10 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   // ============================================================================
 
   const checkAuth = useCallback(async () => {
-    console.log('[checkAuth] Starting auth check...');
     const accessToken = tokenManager.getAccessToken();
     const refreshToken = tokenManager.getRefreshToken();
 
-    console.log('[checkAuth] Has tokens:', { hasAccess: !!accessToken, hasRefresh: !!refreshToken });
-
     if (!accessToken || !refreshToken) {
-      console.log('[checkAuth] No tokens found - setting to unauthenticated');
       setState({
         user: null,
         accessToken: null,
@@ -278,7 +270,6 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     // Check if access token is expired
     if (isTokenExpired(accessToken)) {
       // Token expired - clear auth and let user login again
-      console.log('[checkAuth] Token expired - clearing');
       tokenManager.clearTokens();
       setState({
         user: null,
@@ -290,7 +281,6 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       });
     } else {
       // Token is valid
-      console.log('[checkAuth] Token valid - setting user');
       const user = setUserFromToken(accessToken);
 
       setState({
@@ -302,7 +292,6 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         error: null,
       });
     }
-    console.log('[checkAuth] Auth check completed');
   }, []);
 
   // ============================================================================
@@ -370,12 +359,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   // ============================================================================
 
   useEffect(() => {
-    console.log('[AuthProvider] Mounting - checking auth...');
-    checkAuth().then(() => {
-      console.log('[AuthProvider] Auth check completed');
-    }).catch((err) => {
-      console.error('[AuthProvider] Auth check failed:', err);
-    });
+    checkAuth();
   }, [checkAuth]);
 
   // ============================================================================
@@ -393,30 +377,8 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
   console.log('[AuthProvider] About to render - isLoading:', state.isLoading);
   
-  // DEBUG: Visual indicator
-  if (typeof window !== 'undefined') {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    (window as any).__AUTH_STATE__ = state;
-  }
-  
   return (
     <AuthContext.Provider value={value}>
-      {/* Debug indicator - remove after fixing */}
-      {state.isLoading && (
-        <div style={{
-          position: 'fixed',
-          top: 0,
-          left: 0,
-          right: 0,
-          background: 'yellow',
-          padding: '10px',
-          zIndex: 99999,
-          textAlign: 'center',
-          fontWeight: 'bold'
-        }}>
-          🔄 AUTH LOADING... (Debug Mode)
-        </div>
-      )}
       {children}
     </AuthContext.Provider>
   );
