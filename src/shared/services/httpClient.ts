@@ -203,12 +203,14 @@ httpClient.interceptors.response.use(
     // Handle 429 Rate Limit
     if (error.response?.status === 429) {
       const rateLimitError = error.response.data as RateLimitError;
-      const retryAfter = error.response.headers['retry-after'] || rateLimitError.retry_after_seconds;
+      // Note: Retry-After header may not be accessible due to CORS
+      // Backend should send retry_after_seconds in response body
+      const retryAfter = rateLimitError.retry_after_seconds || 60;
       
       window.dispatchEvent(new CustomEvent('auth:rate-limit', {
         detail: {
-          message: rateLimitError.error,
-          retryAfter: parseInt(String(retryAfter)),
+          message: rateLimitError.error || 'Muitas tentativas. Aguarde antes de tentar novamente.',
+          retryAfter: parseInt(String(retryAfter), 10) || 60,
         },
       }));
     }

@@ -24,12 +24,12 @@ export const useLogin = (): UseLoginReturn => {
 
     try {
       await authLogin(data);
+      setIsLoading(false);
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : 'Erro ao fazer login';
       setError(errorMessage);
-      throw err;
-    } finally {
       setIsLoading(false);
+      // Don't re-throw to prevent navigation away from form
     }
   };
 

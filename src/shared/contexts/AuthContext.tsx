@@ -147,8 +147,6 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
           isLoading: false,
           error: errorMessage,
         }));
-        
-        showError(errorMessage);
       } else {
         // For 403 errors, just reset loading state (error is handled by event)
         setState((prev) => ({

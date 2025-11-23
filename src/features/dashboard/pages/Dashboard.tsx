@@ -215,9 +215,8 @@ export const Dashboard = () => {
             <h2 className="text-2xl font-bold">Solicitações</h2>
             <Button
               onClick={() => setShowTicketModal(true)}
-              className="flex items-center gap-2"
+              leftIcon={<Plus />}
             >
-              <Plus className="w-5 h-5" />
               Nova Solicitação
             </Button>
           </div>

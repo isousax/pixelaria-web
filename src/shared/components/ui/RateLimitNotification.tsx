@@ -17,7 +17,7 @@ export const RateLimitNotification = ({
   retryAfter: initialRetryAfter,
   onDismiss 
 }: RateLimitNotificationProps) => {
-  const [retryAfter, setRetryAfter] = useState(initialRetryAfter);
+  const [retryAfter, setRetryAfter] = useState(isNaN(initialRetryAfter) ? 60 : initialRetryAfter);
 
   useEffect(() => {
     if (retryAfter <= 0) {
@@ -39,6 +39,9 @@ export const RateLimitNotification = ({
   }, [retryAfter, onDismiss]);
 
   const formatTime = (seconds: number): string => {
+    if (!seconds || isNaN(seconds) || seconds < 0) {
+      return '0s';
+    }
     if (seconds < 60) {
       return `${seconds}s`;
     }

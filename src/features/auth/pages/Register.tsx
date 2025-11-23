@@ -11,7 +11,7 @@ export const Register = () => {
         description="Crie sua conta na Pixelaria"
       />
 
-      <div className="min-h-screen bg-background-light flex justify-center py-18 sm:py-30 px-4">
+      <div className="min-h-screen bg-background-light flex items-center justify-center py-18 sm:py-30 px-4">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}

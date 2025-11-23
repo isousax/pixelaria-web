@@ -40,11 +40,7 @@ export const LoginForm = () => {
 
     if (!validateForm()) return;
 
-    try {
-      await login(formData);
-    } catch {
-      // Error handled by hook
-    }
+    await login(formData);
   };
 
   return (

@@ -119,7 +119,7 @@ export interface AuthErrorResponse {
 export interface RateLimitError {
   error: string;
   code: 'TOO_MANY_ATTEMPTS' | 'RATE_LIMIT_EXCEEDED';
-  retry_after_seconds: number;
+  retry_after_seconds?: number;
 }
 
 // Auth State
