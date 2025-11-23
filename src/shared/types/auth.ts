@@ -6,6 +6,7 @@ export interface User {
   id: string;
   email: string;
   full_name: string;
+  display_name?: string | null;
   phone: string;
   birth_date?: string | null;
   role: 'user' | 'admin';
@@ -37,6 +38,7 @@ export interface RegisterRequest {
   email: string;
   password: string;
   full_name: string;
+  display_name?: string;
   phone: string;
   birth_date?: string;
 }

@@ -1,15 +1,15 @@
-import { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
-import { Globe, MessageSquare, Plus } from 'lucide-react';
-import { Card } from '../../../shared/components/ui/Card';
-import { Button } from '../../../shared/components/ui/Button';
-import { Input } from '../../../shared/components/ui/Input';
-import { Textarea } from '../../../shared/components/ui/Textarea';
-import { Modal } from '../../../shared/components/ui/Modal';
-import { useToast } from '../../../shared/hooks/useToast';
-import { dashboardApi } from '../../../data/dashboard';
-import { formatCurrency, formatShortDate } from '../../../shared/utils/helpers';
-import type { ClientSite, Invoice, Ticket } from '../../../shared/types';
+import { useState, useEffect } from "react";
+import { motion } from "framer-motion";
+import { Globe, MessageSquare, Plus } from "lucide-react";
+import { Card } from "../../../shared/components/ui/Card";
+import { Button } from "../../../shared/components/ui/Button";
+import { Input } from "../../../shared/components/ui/Input";
+import { Textarea } from "../../../shared/components/ui/Textarea";
+import { Modal } from "../../../shared/components/ui/Modal";
+import { useToast } from "../../../shared/hooks/useToast";
+import { dashboardApi } from "../../../data/dashboard";
+import { formatCurrency, formatShortDate } from "../../../shared/utils/helpers";
+import type { ClientSite, Invoice, Ticket } from "../../../shared/types";
 
 export const Dashboard = () => {
   const [sites, setSites] = useState<ClientSite[]>([]);
@@ -17,12 +17,16 @@ export const Dashboard = () => {
   const [tickets, setTickets] = useState<Ticket[]>([]);
   const [loading, setLoading] = useState(true);
   const [showTicketModal, setShowTicketModal] = useState(false);
-  const [newTicket, setNewTicket] = useState({ title: '', description: '', category: 'change-request' });
+  const [newTicket, setNewTicket] = useState({
+    title: "",
+    description: "",
+    category: "change-request",
+  });
   const toast = useToast();
 
   useEffect(() => {
     loadData();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const loadData = async () => {
@@ -37,7 +41,7 @@ export const Dashboard = () => {
       setInvoices(invoicesData);
       setTickets(ticketsData);
     } catch {
-      toast.error('Erro ao carregar dados');
+      toast.error("Erro ao carregar dados");
     } finally {
       setLoading(false);
     }
@@ -45,40 +49,42 @@ export const Dashboard = () => {
 
   const handleCreateTicket = async () => {
     if (!newTicket.title || !newTicket.description) {
-      toast.error('Preencha todos os campos');
+      toast.error("Preencha todos os campos");
       return;
     }
 
     try {
       await dashboardApi.createTicket({
         ...newTicket,
-        clientId: 'client-1',
-        siteId: sites[0]?.id || 'site-1',
-        status: 'open',
-        priority: 'medium',
-        category: newTicket.category as Ticket['category'],
+        clientId: "client-1",
+        siteId: sites[0]?.id || "site-1",
+        status: "open",
+        priority: "medium",
+        category: newTicket.category as Ticket["category"],
       });
-      toast.success('Solicitação criada com sucesso!');
+      toast.success("Solicitação criada com sucesso!");
       setShowTicketModal(false);
-      setNewTicket({ title: '', description: '', category: 'change-request' });
+      setNewTicket({ title: "", description: "", category: "change-request" });
       loadData();
     } catch {
-      toast.error('Erro ao criar solicitação');
+      toast.error("Erro ao criar solicitação");
     }
   };
 
   const getStatusColor = (status: string) => {
     const colors = {
-      active: 'bg-green-100 text-green-800',
-      pending: 'bg-yellow-100 text-yellow-800',
-      paid: 'bg-green-100 text-green-800',
-      overdue: 'bg-red-100 text-red-800',
-      open: 'bg-blue-100 text-blue-800',
-      'in-progress': 'bg-purple-100 text-purple-800',
-      completed: 'bg-green-100 text-green-800',
-      'pending-approval': 'bg-yellow-100 text-yellow-800',
+      active: "bg-green-100 text-green-800",
+      pending: "bg-yellow-100 text-yellow-800",
+      paid: "bg-green-100 text-green-800",
+      overdue: "bg-red-100 text-red-800",
+      open: "bg-blue-100 text-blue-800",
+      "in-progress": "bg-purple-100 text-purple-800",
+      completed: "bg-green-100 text-green-800",
+      "pending-approval": "bg-yellow-100 text-yellow-800",
     };
-    return colors[status as keyof typeof colors] || 'bg-neutral-100 text-neutral-800';
+    return (
+      colors[status as keyof typeof colors] || "bg-neutral-100 text-neutral-800"
+    );
   };
 
   if (loading) {
@@ -93,7 +99,7 @@ export const Dashboard = () => {
   }
 
   return (
-    <div className="bg-background-light py-20">
+    <div className="bg-background-light py-8 sm:py-18">
       <div className="container-custom">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -127,16 +133,21 @@ export const Dashboard = () => {
                       </a>
                     )}
                     <div className="flex items-center gap-2 mt-3">
-                      <span className={`text-xs font-semibold px-2 py-1 rounded ${getStatusColor(site.status)}`}>
+                      <span
+                        className={`text-xs font-semibold px-2 py-1 rounded ${getStatusColor(site.status)}`}
+                      >
                         {site.status}
                       </span>
                       <span className="text-xs text-neutral-600">
-                        {site.planType === 'subscription' ? 'Assinatura' : 'Compra Única'}
+                        {site.planType === "subscription"
+                          ? "Assinatura"
+                          : "Compra Única"}
                       </span>
                     </div>
-                    {site.planType === 'subscription' && (
+                    {site.planType === "subscription" && (
                       <p className="text-sm text-neutral-600 mt-2">
-                        Alterações: {site.monthlyChangesUsed}/{site.monthlyChangesLimit} este mês
+                        Alterações: {site.monthlyChangesUsed}/
+                        {site.monthlyChangesLimit} este mês
                       </p>
                     )}
                   </div>
@@ -154,21 +165,40 @@ export const Dashboard = () => {
               <table className="w-full">
                 <thead className="bg-neutral-50">
                   <tr>
-                    <th className="px-4 py-3 text-left text-sm font-semibold">Descrição</th>
-                    <th className="px-4 py-3 text-left text-sm font-semibold">Vencimento</th>
-                    <th className="px-4 py-3 text-left text-sm font-semibold">Valor</th>
-                    <th className="px-4 py-3 text-left text-sm font-semibold">Status</th>
+                    <th className="px-4 py-3 text-left text-sm font-semibold">
+                      Descrição
+                    </th>
+                    <th className="px-4 py-3 text-left text-sm font-semibold">
+                      Vencimento
+                    </th>
+                    <th className="px-4 py-3 text-left text-sm font-semibold">
+                      Valor
+                    </th>
+                    <th className="px-4 py-3 text-left text-sm font-semibold">
+                      Status
+                    </th>
                   </tr>
                 </thead>
                 <tbody>
                   {invoices.slice(0, 5).map((invoice) => (
-                    <tr key={invoice.id} className="border-t border-neutral-100">
-                      <td className="px-4 py-3 text-sm">{invoice.description}</td>
-                      <td className="px-4 py-3 text-sm">{formatShortDate(invoice.dueDate)}</td>
-                      <td className="px-4 py-3 text-sm font-semibold">{formatCurrency(invoice.amount)}</td>
+                    <tr
+                      key={invoice.id}
+                      className="border-t border-neutral-100"
+                    >
+                      <td className="px-4 py-3 text-sm">
+                        {invoice.description}
+                      </td>
+                      <td className="px-4 py-3 text-sm">
+                        {formatShortDate(invoice.dueDate)}
+                      </td>
+                      <td className="px-4 py-3 text-sm font-semibold">
+                        {formatCurrency(invoice.amount)}
+                      </td>
                       <td className="px-4 py-3">
-                        <span className={`text-xs font-semibold px-2 py-1 rounded ${getStatusColor(invoice.status)}`}>
-                          {invoice.status === 'paid' ? 'Pago' : 'Pendente'}
+                        <span
+                          className={`text-xs font-semibold px-2 py-1 rounded ${getStatusColor(invoice.status)}`}
+                        >
+                          {invoice.status === "paid" ? "Pago" : "Pendente"}
                         </span>
                       </td>
                     </tr>
@@ -183,7 +213,10 @@ export const Dashboard = () => {
         <section>
           <div className="flex items-center justify-between mb-6">
             <h2 className="text-2xl font-bold">Solicitações</h2>
-            <Button onClick={() => setShowTicketModal(true)}>
+            <Button
+              onClick={() => setShowTicketModal(true)}
+              className="flex items-center gap-2"
+            >
               <Plus className="w-5 h-5" />
               Nova Solicitação
             </Button>
@@ -199,9 +232,13 @@ export const Dashboard = () => {
                     </div>
                     <div className="flex-1">
                       <h3 className="font-bold mb-1">{ticket.title}</h3>
-                      <p className="text-sm text-neutral-600 mb-2">{ticket.description}</p>
+                      <p className="text-sm text-neutral-600 mb-2">
+                        {ticket.description}
+                      </p>
                       <div className="flex items-center gap-2">
-                        <span className={`text-xs font-semibold px-2 py-1 rounded ${getStatusColor(ticket.status)}`}>
+                        <span
+                          className={`text-xs font-semibold px-2 py-1 rounded ${getStatusColor(ticket.status)}`}
+                        >
                           {ticket.status}
                         </span>
                         <span className="text-xs text-neutral-600">
@@ -215,7 +252,9 @@ export const Dashboard = () => {
                       </div>
                       {ticket.response && (
                         <div className="mt-3 p-3 bg-neutral-50 rounded-lg">
-                          <p className="text-sm text-neutral-700">{ticket.response}</p>
+                          <p className="text-sm text-neutral-700">
+                            {ticket.response}
+                          </p>
                         </div>
                       )}
                     </div>
@@ -236,17 +275,21 @@ export const Dashboard = () => {
             <Input
               label="Título"
               value={newTicket.title}
-              onChange={(e) => setNewTicket({ ...newTicket, title: e.target.value })}
+              onChange={(e) =>
+                setNewTicket({ ...newTicket, title: e.target.value })
+              }
               placeholder="Ex: Atualizar texto da home"
             />
-            
+
             <div>
               <label className="block text-sm font-medium text-neutral-700 mb-2">
                 Categoria
               </label>
               <select
                 value={newTicket.category}
-                onChange={(e) => setNewTicket({ ...newTicket, category: e.target.value })}
+                onChange={(e) =>
+                  setNewTicket({ ...newTicket, category: e.target.value })
+                }
                 className="input-field"
               >
                 <option value="change-request">Alteração de Conteúdo</option>
@@ -255,20 +298,26 @@ export const Dashboard = () => {
                 <option value="source-code">Solicitar Código-Fonte</option>
               </select>
             </div>
-            
+
             <Textarea
               label="Descrição"
               value={newTicket.description}
-              onChange={(e) => setNewTicket({ ...newTicket, description: e.target.value })}
+              onChange={(e) =>
+                setNewTicket({ ...newTicket, description: e.target.value })
+              }
               placeholder="Descreva sua solicitação em detalhes..."
               rows={5}
             />
-            
+
             <div className="flex gap-3">
               <Button onClick={handleCreateTicket} fullWidth>
                 Enviar Solicitação
               </Button>
-              <Button onClick={() => setShowTicketModal(false)} variant="secondary" fullWidth>
+              <Button
+                onClick={() => setShowTicketModal(false)}
+                variant="secondary"
+                fullWidth
+              >
                 Cancelar
               </Button>
             </div>

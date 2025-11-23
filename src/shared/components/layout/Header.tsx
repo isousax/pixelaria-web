@@ -144,7 +144,9 @@ export const Header = () => {
                     <div className="w-8 h-8 bg-linear-to-br from-primary-600 to-primary-700 rounded-full flex items-center justify-center">
                       <User className="w-4 h-4" />
                     </div>
-                    <span className="font-medium text-neutral-900">{user?.full_name?.split(' ')[0] || 'Usuário'}</span>
+                    <span className="font-medium text-neutral-900">
+                      {user?.display_name || user?.full_name?.split(' ')[0] || 'Usuário'}
+                    </span>
                   </button>
                   
                   <AnimatePresence>
@@ -267,10 +269,12 @@ export const Header = () => {
                       {/* User Info */}
                       <div className="flex items-center gap-3 px-4 py-3 bg-neutral-50 rounded-xl">
                         <div className="w-10 h-10 bg-linear-to-br from-primary-600 to-primary-700 rounded-full flex items-center justify-center shrink-0">
-                          <User className="w-5 h-5 text-white" />
+                          <User className="w-5 h-5" />
                         </div>
                         <div className="flex-1 min-w-0">
-                          <p className="font-semibold text-neutral-900 truncate">{user?.full_name || 'Usuário'}</p>
+                          <p className="font-semibold text-neutral-900 truncate">
+                            {user?.display_name || user?.full_name || 'Usuário'}
+                          </p>
                           <p className="text-sm text-neutral-500 truncate">{user?.email}</p>
                         </div>
                       </div>
