@@ -17,4 +17,4 @@ User-agent: Slurp
 Allow: /
 
 # Sitemap location
-Sitemap: https://www.pixelaria.com.br/sitemap.xml
+Sitemap: https://pixelaria.com.br/sitemap.xml

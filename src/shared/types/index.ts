@@ -1,3 +1,6 @@
+// Re-export auth types
+export * from './auth';
+
 export interface Project {
   id: string;
   title: string;

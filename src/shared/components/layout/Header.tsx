@@ -4,6 +4,8 @@ import { Code2, Menu, X } from 'lucide-react';
 import { useState, useEffect } from 'react';
 
 export const Header = () => {
+  console.log('[Header] Rendering...');
+  
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const location = useLocation();
@@ -114,7 +116,7 @@ export const Header = () => {
                 to="/dashboard"
                 className="ml-4 px-6 py-2.5 bg-linear-to-r from-primary-600 to-primary-700 hover:from-primary-700 hover:to-primary-800 rounded-lg font-semibold transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105 active:scale-95 bg-gray-100"
               >
-                Área do Cliente
+                Entrar
               </Link>
             </div>
 
