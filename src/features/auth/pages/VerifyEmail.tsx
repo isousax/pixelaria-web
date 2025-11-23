@@ -66,7 +66,7 @@ export const VerifyEmail = () => {
     return (
       <>
         <SEO title="Erro na Verificação - Pixelaria" description="Não foi possível verificar seu email" />
-        <div className="min-h-screen bg-background-light flex items-center justify-center py-12 px-4">
+        <div className="min-h-screen bg-background-light flex justify-center py-18 sm:py-30 px-4">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
