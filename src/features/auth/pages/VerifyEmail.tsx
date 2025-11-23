@@ -112,8 +112,8 @@ export const VerifyEmail = () => {
               </div>
 
               <div className="mt-6 p-4 bg-blue-50 rounded-lg">
-                <p className="text-sm text-blue-800">
-                  <strong>💡 Dica:</strong> Verifique sua caixa de spam. O email pode ter sido filtrado.
+                <p className="text-xs text-blue-800">
+                  Verifique sua caixa de spam. O email pode ter sido filtrado.
                 </p>
               </div>
             </Card>

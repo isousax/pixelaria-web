@@ -55,7 +55,7 @@ export const ResendVerification = () => {
     return (
       <>
         <SEO title="Email Enviado - Pixelaria" description="Um novo email de verificação foi enviado" />
-        <div className="min-h-screen bg-background-light flex items-center justify-center py-12 px-4">
+        <div className="min-h-screen bg-background-light flex justify-center py-18 sm:py-30 px-4">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -89,16 +89,13 @@ export const ResendVerification = () => {
   return (
     <>
       <SEO title="Reenviar Verificação - Pixelaria" description="Receba um novo email de verificação de conta" />
-      <div className="min-h-screen bg-background-light flex items-center justify-center py-12 px-4">
+      <div className="min-h-screen bg-background-light flex justify-center py-18 sm:py-30 px-4">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           className="w-full max-w-md"
         >
           <div className="text-center mb-8">
-            <div className="inline-flex items-center justify-center w-16 h-16 bg-primary-100 rounded-2xl mb-4">
-              <Mail className="w-8 h-8 text-primary-600" />
-            </div>
             <h1 className="text-3xl font-black text-neutral-900 mb-2">
               Reenviar Verificação
             </h1>
