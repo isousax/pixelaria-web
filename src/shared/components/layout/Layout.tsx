@@ -11,7 +11,7 @@ interface LayoutProps {
 export const Layout = ({ children }: LayoutProps) => {
   const location = useLocation();
   
-  // Páginas onde o footer não deve aparecer
+  // Páginas onde o footer não deve aparecer (apenas login e register)
   const hideFooterPaths = ['/login', '/register'];
   const shouldHideFooter = hideFooterPaths.includes(location.pathname);
   

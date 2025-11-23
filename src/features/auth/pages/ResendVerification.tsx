@@ -17,7 +17,8 @@ const COOLDOWN_SECONDS = 60;
 
 export const ResendVerification = () => {
   const { resendVerification, isLoading, error, success } = useEmailVerification();
-  const [email, setEmail] = useState('');
+  const [searchParams] = useState(() => new URLSearchParams(window.location.search));
+  const [email, setEmail] = useState(searchParams.get('email') || '');
   const [validationError, setValidationError] = useState('');
   const [cooldown, setCooldown] = useState(0);
 

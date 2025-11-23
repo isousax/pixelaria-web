@@ -1,7 +1,3 @@
-// ============================================================================
-// ResetPassword Page
-// ============================================================================
-
 import { useState } from 'react';
 import type { FormEvent } from 'react';
 import { motion } from 'framer-motion';

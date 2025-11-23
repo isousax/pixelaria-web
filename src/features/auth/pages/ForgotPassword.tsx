@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import type { FormEvent } from 'react';
 import { motion } from 'framer-motion';
-import { KeyRound, Mail } from 'lucide-react';
+import { Mail } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { Card } from '../../../shared/components/ui/Card';
 import { Button } from '../../../shared/components/ui/Button';
@@ -39,7 +39,7 @@ export const ForgotPassword = () => {
     return (
       <>
         <SEO title="Email Enviado - Pixelaria" description="Instruções para redefinir sua senha foram enviadas" />
-        <div className="min-h-screen bg-background-light flex items-center justify-center py-12 px-4">
+        <div className="min-h-screen bg-background-light flex justify-center py-18 sm:py-30 px-4">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -68,16 +68,13 @@ export const ForgotPassword = () => {
   return (
     <>
       <SEO title="Esqueci minha Senha - Pixelaria" description="Recupere o acesso à sua conta" />
-      <div className="min-h-screen bg-background-light flex items-center justify-center py-12 px-4">
+      <div className="min-h-screen bg-background-light flex justify-center py-18 sm:py-30 px-4">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           className="w-full max-w-md"
         >
           <div className="text-center mb-8">
-            <div className="inline-flex items-center justify-center w-16 h-16 bg-primary-100 rounded-2xl mb-4">
-              <KeyRound className="w-8 h-8 text-primary-600" />
-            </div>
             <h1 className="text-3xl font-black text-neutral-900 mb-2">
               Esqueceu sua senha?
             </h1>
@@ -89,11 +86,8 @@ export const ForgotPassword = () => {
           <Card padding="lg">
             <form onSubmit={handleSubmit} className="space-y-6">
               <div>
-                <label htmlFor="email" className="block text-sm font-medium text-neutral-700 mb-2">
-                  Email
-                </label>
                 <div className="relative">
-                  <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-neutral-400" />
+                  <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 z-1 text-neutral-400" />
                   <Input
                     id="email"
                     type="email"
@@ -103,7 +97,7 @@ export const ForgotPassword = () => {
                       setValidationError('');
                     }}
                     className="pl-10"
-                    placeholder="seu@email.com"
+                    placeholder="E-mail"
                     disabled={isLoading}
                   />
                 </div>
@@ -130,7 +124,7 @@ export const ForgotPassword = () => {
 
               <p className="text-center text-sm text-neutral-600">
                 Lembrou sua senha?{' '}
-                <Link to="/login" className="text-primary-600 hover:text-primary-700 font-medium">
+                <Link to="/login" className="text-primary-600 hover:text-primary-700 font-medium underline">
                   Voltar para login
                 </Link>
               </p>
