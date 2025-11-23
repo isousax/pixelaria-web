@@ -11,7 +11,7 @@ export const SEO_CONFIG = {
   company: {
     name: 'Pixelaria',
     legalName: 'Pixelaria Desenvolvimento Web LTDA',
-    email: 'atendimentopixelaria@gmail.com',
+    email: 'contato@pixelaria.com.br',
     phone: '+55 81 99272-0219', // Substitua pelo seu telefone
     address: {
       street: 'Apenas Online',
