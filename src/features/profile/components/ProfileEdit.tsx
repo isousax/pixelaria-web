@@ -161,34 +161,33 @@ export const ProfileEdit = () => {
 
       {/* Current User Info */}
       <div className="mb-8 p-4 bg-neutral-50 rounded-xl border border-neutral-200">
-        <h3 className="text-sm font-semibold text-neutral-700 mb-3">Informações Atuais</h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-sm">
           <div>
-            <span className="text-neutral-500">Email:</span>
+            <span className="text-neutral-500">Email</span>
             <p className="font-medium text-neutral-900">{user?.email}</p>
           </div>
           <div>
-            <span className="text-neutral-500">Nome Completo:</span>
+            <span className="text-neutral-500">Nome Completo</span>
             <p className="font-medium text-neutral-900">{user?.full_name || '-'}</p>
           </div>
           {user?.display_name && (
             <div>
-              <span className="text-neutral-500">Nome de Exibição:</span>
+              <span className="text-neutral-500">Nome de Exibição</span>
               <p className="font-medium text-neutral-900">{user.display_name}</p>
             </div>
           )}
           <div>
-            <span className="text-neutral-500">Telefone:</span>
+            <span className="text-neutral-500">Telefone</span>
             <p className="font-medium text-neutral-900">{user?.phone || '-'}</p>
           </div>
           <div>
-            <span className="text-neutral-500">Data de Nascimento:</span>
+            <span className="text-neutral-500">Data de Nascimento</span>
             <p className="font-medium text-neutral-900">
               {user?.birth_date ? new Date(user.birth_date).toLocaleDateString('pt-BR') : '-'}
             </p>
           </div>
           <div>
-            <span className="text-neutral-500">Conta Criada:</span>
+            <span className="text-neutral-500">Conta Criada</span>
             <p className="font-medium text-neutral-900">
               {user?.created_at ? new Date(user.created_at).toLocaleDateString('pt-BR') : '-'}
             </p>
@@ -250,7 +249,7 @@ export const ProfileEdit = () => {
             <p className="mt-1 text-sm text-red-600">{validationErrors.phone}</p>
           )}
           <p className="mt-1 text-xs text-neutral-500">
-            Digite apenas números. Será formatado automaticamente.
+            Digite apenas números.
           </p>
         </div>
 
