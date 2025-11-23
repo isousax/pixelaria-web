@@ -19,6 +19,43 @@ interface ProfileFormData {
   birth_date: string;
 }
 
+// Phone utility functions
+const normalizePhone = (phone: string): string => {
+  // Remove tudo exceto números
+  return phone.replace(/\D/g, '');
+};
+
+const formatPhone = (phone: string): string => {
+  const numbers = normalizePhone(phone);
+  
+  // Se tem código do país (+55), remove
+  const localNumbers = numbers.startsWith('55') ? numbers.slice(2) : numbers;
+  
+  // Formata: (XX) XXXXX-XXXX ou (XX) XXXX-XXXX
+  if (localNumbers.length === 11) {
+    return `(${localNumbers.slice(0, 2)}) ${localNumbers.slice(2, 7)}-${localNumbers.slice(7)}`;
+  } else if (localNumbers.length === 10) {
+    return `(${localNumbers.slice(0, 2)}) ${localNumbers.slice(2, 6)}-${localNumbers.slice(6)}`;
+  }
+  
+  return phone; // Retorna original se não conseguir formatar
+};
+
+const isValidPhone = (phone: string): boolean => {
+  if (!phone) return true; // Campo opcional
+  
+  const numbers = normalizePhone(phone);
+  
+  // Aceita com ou sem código do país
+  // 10 dígitos: (XX) XXXX-XXXX
+  // 11 dígitos: (XX) XXXXX-XXXX
+  // 12 dígitos: +55 XX XXXX-XXXX
+  // 13 dígitos: +55 XX XXXXX-XXXX
+  const localNumbers = numbers.startsWith('55') ? numbers.slice(2) : numbers;
+  
+  return localNumbers.length === 10 || localNumbers.length === 11;
+};
+
 export const ProfileEdit = () => {
   const { user, refreshAuth } = useAuth();
   const [formData, setFormData] = useState<ProfileFormData>({
@@ -40,7 +77,7 @@ export const ProfileEdit = () => {
       setFormData({
         full_name: user.full_name || '',
         display_name: user.display_name || '',
-        phone: user.phone || '',
+        phone: user.phone ? formatPhone(user.phone) : '',
         birth_date: user.birth_date || ''
       });
     }
@@ -53,8 +90,8 @@ export const ProfileEdit = () => {
       errors.full_name = 'Nome deve ter pelo menos 3 caracteres';
     }
 
-    if (formData.phone && !/^\(\d{2}\)\s\d{4,5}-\d{4}$/.test(formData.phone)) {
-      errors.phone = 'Telefone inválido. Use o formato (XX) XXXXX-XXXX';
+    if (formData.phone && !isValidPhone(formData.phone)) {
+      errors.phone = 'Telefone inválido. Digite apenas números ou use (XX) XXXXX-XXXX';
     }
 
     if (formData.birth_date) {
@@ -83,7 +120,13 @@ export const ProfileEdit = () => {
     setIsLoading(true);
 
     try {
-      await httpClient.put<UserType>('/auth/profile', formData);
+      // Normaliza telefone antes de enviar (apenas números com +55)
+      const dataToSend = {
+        ...formData,
+        phone: formData.phone ? `+55${normalizePhone(formData.phone)}` : formData.phone
+      };
+      
+      await httpClient.put<UserType>('/auth/profile', dataToSend);
       
       // Refresh auth context to update user data
       await refreshAuth();
@@ -102,7 +145,10 @@ export const ProfileEdit = () => {
   };
 
   const handleChange = (field: keyof ProfileFormData, value: string) => {
-    setFormData(prev => ({ ...prev, [field]: value }));
+    // Formata telefone automaticamente enquanto digita
+    const finalValue = field === 'phone' ? formatPhone(value) : value;
+    
+    setFormData(prev => ({ ...prev, [field]: finalValue }));
     setValidationErrors(prev => ({ ...prev, [field]: '' }));
     setError('');
   };
@@ -203,6 +249,9 @@ export const ProfileEdit = () => {
           {validationErrors.phone && (
             <p className="mt-1 text-sm text-red-600">{validationErrors.phone}</p>
           )}
+          <p className="mt-1 text-xs text-neutral-500">
+            Digite apenas números. Será formatado automaticamente.
+          </p>
         </div>
 
         {!hasBirthDate && (
@@ -223,7 +272,7 @@ export const ProfileEdit = () => {
               <p className="mt-1 text-sm text-red-600">{validationErrors.birth_date}</p>
             )}
             <p className="mt-1 text-xs text-amber-600">
-              ⚠️ Atenção: após salvar, a data de nascimento não poderá mais ser alterada
+              ⚠️ Após salvar, a data de nascimento não poderá mais ser alterada
             </p>
           </div>
         )}
